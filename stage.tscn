@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://kifusg7w5o5"]
+
+[ext_resource type="Script" path="res://Scripts/Stage.gd" id="1_fseun"]
+[ext_resource type="Texture2D" uid="uid://bvo5d8eto1uo7" path="res://Assets/Images/SAND.png" id="1_tnni8"]
+[ext_resource type="PackedScene" uid="uid://bm3ed7362l3m4" path="res://champion.tscn" id="2_ra417"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_57348"]
+vertices = PackedVector2Array(1268.01, 709.023, 11, 711.969, 11, 11.9922, 1268.98, 11)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1, 2, 1279, 1, 1278, 719, 1, 722)])
+
+[node name="Stage" type="Node2D"]
+script = ExtResource("1_fseun")
+champion_scene = ExtResource("2_ra417")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("1_tnni8")
+stretch_mode = 1
+
+[node name="Champion" parent="." instance=ExtResource("2_ra417")]
+position = Vector2(614, 331)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_57348")

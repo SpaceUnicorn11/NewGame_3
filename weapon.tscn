@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1rtfdkasa3ft"]
+
+[ext_resource type="Texture2D" uid="uid://bt6h7whycu6e6" path="res://Assets/Images/sword_attack.png" id="1_4k8ey"]
+[ext_resource type="Script" path="res://Scripts/Weapon.gd" id="1_tv7vw"]
+[ext_resource type="Texture2D" uid="uid://bccwwfjgqo2iq" path="res://Assets/Images/sword_default.png" id="2_fpeb7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3pc7l"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4k8ey")
+}],
+"loop": true,
+"name": &"attack_sword",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_fpeb7")
+}],
+"loop": true,
+"name": &"default_sword",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_84loo"]
+radius = 13.864
+height = 50.0887
+
+[node name="Weapon" type="StaticBody2D"]
+collision_layer = 2
+script = ExtResource("1_tv7vw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-8, -16)
+sprite_frames = SubResource("SpriteFrames_3pc7l")
+animation = &"default_sword"
+frame_progress = 0.157486
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(18, 4)
+rotation = -0.918043
+shape = SubResource("CapsuleShape2D_84loo")
+disabled = true

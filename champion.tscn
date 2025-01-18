@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://bm3ed7362l3m4"]
+
+[ext_resource type="Script" path="res://Scripts/Champion.gd" id="1_x1g4x"]
+[ext_resource type="Texture2D" uid="uid://dqecdw61q0k5o" path="res://Assets/Images/champion_default.png" id="1_yibvv"]
+[ext_resource type="Texture2D" uid="uid://cb8je288vq35c" path="res://Assets/Images/champion_move.png" id="2_28dhs"]
+[ext_resource type="Texture2D" uid="uid://nfxfeph822dd" path="res://Assets/Images/champion_move_2.png" id="3_l10oh"]
+[ext_resource type="PackedScene" uid="uid://c1rtfdkasa3ft" path="res://weapon.tscn" id="4_lh5jm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4vo1"]
+radius = 18.0
+height = 92.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i8bbd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yibvv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_28dhs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_l10oh")
+}],
+"loop": true,
+"name": &"move",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yq2n0"]
+radius = 115.004
+
+[node name="Champion" type="CharacterBody2D"]
+script = ExtResource("1_x1g4x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_b4vo1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_i8bbd")
+
+[node name="Weapon" parent="." instance=ExtResource("4_lh5jm")]
+position = Vector2(17, 6)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 50.0
+radius = 80.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_yq2n0")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
