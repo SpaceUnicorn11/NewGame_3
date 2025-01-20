@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1fu8qnmx72qy"]
+
+[ext_resource type="Texture2D" uid="uid://buyqasd3i3dtr" path="res://Assets/Images/champion_dead.png" id="1_kfmxw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fsjwb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_kfmxw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Corpse" type="AnimatedSprite2D"]
+z_index = 1
+scale = Vector2(0.7, 0.7)
+sprite_frames = SubResource("SpriteFrames_fsjwb")

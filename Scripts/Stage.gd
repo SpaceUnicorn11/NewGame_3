@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var champion_scene: PackedScene
+@export var corpse_scene: PackedScene
 var stage = 1
 var champion_types = ["greataxe", "spear", "sword"]
 
@@ -14,7 +15,7 @@ func _ready():
 				spawn_champion(stage_1_spawns[i])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 func spawn_champion(spawn_position):
@@ -23,3 +24,8 @@ func spawn_champion(spawn_position):
 	champion.type = "sword" #champion_types[randi_range(0, 2)]
 	champion.position = spawn_position
 	add_child(champion)
+
+func spawn_corpse(corpse_position):
+	var corpse = corpse_scene.instantiate()
+	corpse.position = corpse_position
+	add_child(corpse)

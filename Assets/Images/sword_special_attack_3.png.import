@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvo5d8eto1uo7"
-path="res://.godot/imported/SAND.png-7aefcf5d88041b0577f7a33183cf21c0.ctex"
+uid="uid://dhilx5reqqvcg"
+path="res://.godot/imported/sword_special_attack_3.png-0330b4cacb2e1cd1b3f0ed7eb885822c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Images/SAND.png"
-dest_files=["res://.godot/imported/SAND.png-7aefcf5d88041b0577f7a33183cf21c0.ctex"]
+source_file="res://Assets/Images/sword_special_attack_3.png"
+dest_files=["res://.godot/imported/sword_special_attack_3.png-0330b4cacb2e1cd1b3f0ed7eb885822c.ctex"]
 
 [params]
 

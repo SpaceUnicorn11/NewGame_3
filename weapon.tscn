@@ -1,17 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://c1rtfdkasa3ft"]
+[gd_scene load_steps=9 format=3 uid="uid://c1rtfdkasa3ft"]
 
-[ext_resource type="Texture2D" uid="uid://bt6h7whycu6e6" path="res://Assets/Images/sword_attack.png" id="1_4k8ey"]
 [ext_resource type="Script" path="res://Scripts/Weapon.gd" id="1_tv7vw"]
+[ext_resource type="Texture2D" uid="uid://bnxgyrthfbnxc" path="res://Assets/Images/sword_basic_attack.png" id="2_bhpge"]
 [ext_resource type="Texture2D" uid="uid://bccwwfjgqo2iq" path="res://Assets/Images/sword_default.png" id="2_fpeb7"]
+[ext_resource type="Texture2D" uid="uid://ceuypdjdef3y6" path="res://Assets/Images/sword_special_attack.png" id="4_5ydal"]
+[ext_resource type="Texture2D" uid="uid://naa535nhwfcl" path="res://Assets/Images/sword_special_attack_2.png" id="5_nogpl"]
+[ext_resource type="Texture2D" uid="uid://dhilx5reqqvcg" path="res://Assets/Images/sword_special_attack_3.png" id="6_sfw2f"]
+[ext_resource type="Texture2D" uid="uid://beupkkg4kbva8" path="res://Assets/Images/sword_strong_attack.png" id="7_ujebd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3pc7l"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_4k8ey")
+"texture": ExtResource("2_bhpge")
 }],
 "loop": true,
-"name": &"attack_sword",
+"name": &"basic_attack_sword",
 "speed": 5.0
 }, {
 "frames": [{
@@ -21,25 +25,68 @@ animations = [{
 "loop": true,
 "name": &"default_sword",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_5ydal")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nogpl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_sfw2f")
+}],
+"loop": true,
+"name": &"special_attack_sword",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ujebd")
+}],
+"loop": true,
+"name": &"strong_attack_sword",
+"speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_84loo"]
-radius = 13.864
-height = 50.0887
-
-[node name="Weapon" type="StaticBody2D"]
+[node name="Weapon" type="AnimatableBody2D"]
+scale = Vector2(0.7, 0.7)
 collision_layer = 2
+collision_mask = 2
+sync_to_physics = false
 script = ExtResource("1_tv7vw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-8, -16)
+position = Vector2(-9, -50)
 sprite_frames = SubResource("SpriteFrames_3pc7l")
 animation = &"default_sword"
-frame_progress = 0.157486
+frame_progress = 0.810284
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(18, 4)
-rotation = -0.918043
-shape = SubResource("CapsuleShape2D_84loo")
+[node name="BasicAttackSword" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(9, 16, 71, 48, 82, 48, 90, 36, 89, 9, 79, -19, 28, -20)
 disabled = true
+
+[node name="StrongAttackSword" type="CollisionPolygon2D" parent="."]
+visible = false
+position = Vector2(54, 0)
+polygon = PackedVector2Array(15, -21, 15, 21, 97, 20, 119, 19, 133, 13, 126, -8, 115, -18, 73, -23)
+disabled = true
+
+[node name="SpecialAttackSword" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(24, -23, 106, -51, 121, -46, 188, -12, 188, 7, 174, 22, 90, 46, 75, 53, 12, 23)
+disabled = true
+
+[node name="BasicAttackTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="StrongAttackTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="SpecialAttackTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true

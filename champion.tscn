@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bm3ed7362l3m4"]
+[gd_scene load_steps=10 format=3 uid="uid://bm3ed7362l3m4"]
 
 [ext_resource type="Script" path="res://Scripts/Champion.gd" id="1_x1g4x"]
 [ext_resource type="Texture2D" uid="uid://dqecdw61q0k5o" path="res://Assets/Images/champion_default.png" id="1_yibvv"]
@@ -8,7 +8,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4vo1"]
 radius = 18.0
-height = 92.0
+height = 60.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_i8bbd"]
 animations = [{
@@ -35,26 +35,43 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_yq2n0"]
 radius = 115.004
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sl7h6"]
+radius = 21.0
+height = 108.0
+
 [node name="Champion" type="CharacterBody2D"]
+z_index = 2
+scale = Vector2(0.7, 0.7)
 script = ExtResource("1_x1g4x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(-1, 21)
 shape = SubResource("CapsuleShape2D_b4vo1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_i8bbd")
 
 [node name="Weapon" parent="." instance=ExtResource("4_lh5jm")]
-position = Vector2(17, 6)
+position = Vector2(15, 16)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 50.0
+avoidance_enabled = true
 radius = 80.0
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_yq2n0")
+disabled = true
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CapsuleShape2D_sl7h6")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

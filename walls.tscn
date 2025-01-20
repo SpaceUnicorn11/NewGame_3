@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dahy3it4dig5h"]
+
+[ext_resource type="Texture2D" uid="uid://eo44rgau6qde" path="res://Assets/Images/arena_walls.png" id="1_7twvj"]
+[ext_resource type="Texture2D" uid="uid://c7tkhyvbqlrs4" path="res://Assets/Images/viewers.png" id="2_dd1f7"]
+
+[node name="Walls" type="StaticBody2D"]
+position = Vector2(640, 360)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7twvj")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture = ExtResource("2_dd1f7")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+build_mode = 1
+polygon = PackedVector2Array(-557, -172, -541, -197, -516, -232, -495, -259, -466, -281, -439, -297, -412, -315, -382, -323, -342, -328, -308, -332, -265, -332, -201, -335, -140, -335, -77, -335, -24, -337, 48, -335, 109, -336, 183, -335, 245, -335, 297, -333, 345, -331, 385, -326, 432, -314, 470, -302, 497, -283, 521, -261, 539, -236, 555, -214, 567, -187, 577, -161, 583, -124, 587, -93, 589, -66, 591, -43, 591, -6, 591, 61, 591, 97, 594, 118, 591, 150, 583, 180, 572, 208, 558, 232, 542, 250, 523, 264, 493, 283, 471, 292, 435, 304, 407, 312, 372, 315, 321, 319, 265, 321, 207, 322, 105, 321, 59, 321, -19, 322, -87, 322, -152, 322, -214, 323, -270, 322, -328, 319, -379, 311, -414, 304, -451, 288, -490, 271, -511, 251, -529, 226, -554, 187, -568, 146, -573, 111, -571, 85, -571, 31, -571, -53, -574, -68, -571, -93, -568, -128)
