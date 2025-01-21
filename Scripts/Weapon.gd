@@ -2,7 +2,7 @@ extends AnimatableBody2D
 
 var is_weapon = true
 var type = "sword"
-var damage = 10
+var damage
 var default_animation = "default_sword"
 var basic_attack_animation = "basic_attack_sword"
 var strong_attack_animation = "strong_attack_sword"
@@ -32,25 +32,27 @@ func basic_attack():
 				$BasicAttackTimer.start()
 
 func strong_attack():
-	match type:
-		"sword":
-			if $StrongAttackTimer.is_stopped():
-				damage = 20
-				$AnimatedSprite2D.play(strong_attack_animation)
-				$StrongAttackSword.set_deferred("disabled", false)
-				await get_tree().create_timer(0.4).timeout
-				$AnimatedSprite2D.play(default_animation)
-				$StrongAttackSword.set_deferred("disabled", true)
-				$StrongAttackTimer.start()
+	if get_parent().rank >= 2 || get_parent().strong_attack_unlocked:
+		match type:
+			"sword":
+				if $StrongAttackTimer.is_stopped():
+					damage = 20
+					$AnimatedSprite2D.play(strong_attack_animation)
+					$StrongAttackSword.set_deferred("disabled", false)
+					await get_tree().create_timer(0.4).timeout
+					$AnimatedSprite2D.play(default_animation)
+					$StrongAttackSword.set_deferred("disabled", true)
+					$StrongAttackTimer.start()
 
 func special_attack():
-	match type:
-		"sword":
-			if $SpecialAttackTimer.is_stopped():
-				damage = 30
-				$AnimatedSprite2D.play(special_attack_animation)
-				$SpecialAttackSword.set_deferred("disabled", false)
-				await get_tree().create_timer(0.5).timeout
-				$AnimatedSprite2D.play(default_animation)
-				$SpecialAttackSword.set_deferred("disabled", true)
-				$SpecialAttackTimer.start()
+	if get_parent().rank >= 3 || get_parent().special_attack_unlocked:
+		match type:
+			"sword":
+				if $SpecialAttackTimer.is_stopped():
+					damage = 30
+					$AnimatedSprite2D.play(special_attack_animation)
+					$SpecialAttackSword.set_deferred("disabled", false)
+					await get_tree().create_timer(0.5).timeout
+					$AnimatedSprite2D.play(default_animation)
+					$SpecialAttackSword.set_deferred("disabled", true)
+					$SpecialAttackTimer.start()

@@ -1,10 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://bm3ed7362l3m4"]
+[gd_scene load_steps=16 format=3 uid="uid://bm3ed7362l3m4"]
 
 [ext_resource type="Script" path="res://Scripts/Champion.gd" id="1_x1g4x"]
 [ext_resource type="Texture2D" uid="uid://dqecdw61q0k5o" path="res://Assets/Images/champion_default.png" id="1_yibvv"]
 [ext_resource type="Texture2D" uid="uid://cb8je288vq35c" path="res://Assets/Images/champion_move.png" id="2_28dhs"]
 [ext_resource type="Texture2D" uid="uid://nfxfeph822dd" path="res://Assets/Images/champion_move_2.png" id="3_l10oh"]
 [ext_resource type="PackedScene" uid="uid://c1rtfdkasa3ft" path="res://weapon.tscn" id="4_lh5jm"]
+[ext_resource type="Texture2D" uid="uid://bxrj5b1bn4dnn" path="res://Assets/Images/champion_move_back.png" id="5_yfodv"]
+[ext_resource type="Texture2D" uid="uid://d21vwrfpt43cj" path="res://Assets/Images/champion_move_back_2.png" id="6_b2rgn"]
+[ext_resource type="Texture2D" uid="uid://bnhl6v7bbp46w" path="res://Assets/Images/champion_move_left.png" id="7_g2cvq"]
+[ext_resource type="Texture2D" uid="uid://bbqppi2rpthbe" path="res://Assets/Images/champion_move_left_2.png" id="8_4u5t0"]
+[ext_resource type="Texture2D" uid="uid://ctnp21vuscl0i" path="res://Assets/Images/champion_move_right.png" id="9_rva77"]
+[ext_resource type="Texture2D" uid="uid://bbqj8n7r2t8aj" path="res://Assets/Images/champion_move_right_2.png" id="10_ph81b"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4vo1"]
 radius = 18.0
@@ -30,6 +36,39 @@ animations = [{
 "loop": true,
 "name": &"move",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_yfodv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_b2rgn")
+}],
+"loop": true,
+"name": &"move_back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_g2cvq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_4u5t0")
+}],
+"loop": true,
+"name": &"move_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_rva77")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ph81b")
+}],
+"loop": true,
+"name": &"move_right",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yq2n0"]
@@ -52,7 +91,8 @@ shape = SubResource("CapsuleShape2D_b4vo1")
 sprite_frames = SubResource("SpriteFrames_i8bbd")
 
 [node name="Weapon" parent="." instance=ExtResource("4_lh5jm")]
-position = Vector2(15, 16)
+position = Vector2(-25, 10.2857)
+rotation = 0.588176
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 50.0
@@ -72,6 +112,10 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CapsuleShape2D_sl7h6")
+
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

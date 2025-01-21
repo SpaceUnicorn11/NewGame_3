@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://kifusg7w5o5"]
+[gd_scene load_steps=8 format=3 uid="uid://kifusg7w5o5"]
 
 [ext_resource type="Script" path="res://Scripts/Stage.gd" id="1_fseun"]
 [ext_resource type="PackedScene" uid="uid://bm3ed7362l3m4" path="res://champion.tscn" id="2_ra417"]
 [ext_resource type="PackedScene" uid="uid://b1fu8qnmx72qy" path="res://corpse.tscn" id="3_7m640"]
 [ext_resource type="Texture2D" uid="uid://bb5sys7fvvn3w" path="res://Assets/Images/background.png" id="4_ymqeu"]
 [ext_resource type="PackedScene" uid="uid://dahy3it4dig5h" path="res://walls.tscn" id="5_pyot5"]
+[ext_resource type="PackedScene" uid="uid://c7dhlvbura3ye" path="res://sword.tscn" id="6_fguoh"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_57348"]
 vertices = PackedVector2Array(648.938, 35, 819.898, 35.9922, 819.898, 36, 343.633, 670, 291.75, 663.141, 227.891, 650.367, 154.156, 619.727, 116.43, 573.508, 83.7188, 508.102, 77.0078, 449.578, 80.0078, 307.758, 833.844, 670, 1042.07, 660.141, 959.523, 668, 77.0703, 265.688, 92.3984, 192.859, 120.203, 149.727, 153.008, 108.227, 198.289, 74.5234, 237.258, 54.5625, 305.289, 41.9297, 368.461, 36.9922, 444.258, 35, 920.609, 36.9922, 996.672, 41.9297, 1081.78, 59.5391, 1117.33, 76.3828, 1157.47, 113.656, 1186.37, 153.148, 1210.2, 203.656, 1217.05, 275.977, 1169.3, 605.391, 1115.89, 638.773, 1222.99, 334.469, 1222, 452.906, 1220.05, 506.359, 1202.98, 564.227)
@@ -24,10 +25,15 @@ texture = ExtResource("4_ymqeu")
 stretch_mode = 1
 
 [node name="Champion" parent="." instance=ExtResource("2_ra417")]
-position = Vector2(614, 331)
+position = Vector2(640, 370)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-visible = false
 navigation_polygon = SubResource("NavigationPolygon_57348")
 
 [node name="Walls" parent="." instance=ExtResource("5_pyot5")]
+
+[node name="ArenaCenter" type="Node2D" parent="."]
+position = Vector2(640, 347)
+
+[node name="Sword" parent="." instance=ExtResource("6_fguoh")]
+position = Vector2(640, 360)

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7dhlvbura3ye"]
+
+[ext_resource type="Texture2D" uid="uid://chvvyhtokd8kh" path="res://Assets/Images/sword_dropped.png" id="1_n1waq"]
+
+[node name="Sword" type="Sprite2D"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_n1waq")
