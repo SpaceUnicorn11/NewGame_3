@@ -50,10 +50,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("7_g2cvq")
+"texture": ExtResource("8_4u5t0")
 }, {
 "duration": 1.0,
-"texture": ExtResource("8_4u5t0")
+"texture": ExtResource("7_g2cvq")
 }],
 "loop": true,
 "name": &"move_left",
@@ -84,15 +84,17 @@ scale = Vector2(0.7, 0.7)
 script = ExtResource("1_x1g4x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-1, 21)
 shape = SubResource("CapsuleShape2D_b4vo1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_i8bbd")
+animation = &"move"
 
 [node name="Weapon" parent="." instance=ExtResource("4_lh5jm")]
-position = Vector2(-25, 10.2857)
-rotation = 0.588176
+position = Vector2(14, 12)
+scale = Vector2(0.9, 0.9)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 50.0
@@ -100,12 +102,14 @@ avoidance_enabled = true
 radius = 80.0
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_yq2n0")
 disabled = true
 
 [node name="Hitbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 3
 collision_mask = 3
 monitorable = false

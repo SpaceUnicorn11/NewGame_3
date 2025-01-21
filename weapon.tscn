@@ -38,7 +38,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"special_attack_sword",
-"speed": 4.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -60,7 +60,7 @@ script = ExtResource("1_tv7vw")
 position = Vector2(-9, -50)
 sprite_frames = SubResource("SpriteFrames_3pc7l")
 animation = &"default_sword"
-frame_progress = 0.810284
+frame_progress = 0.429095
 centered = false
 
 [node name="BasicAttackSword" type="CollisionPolygon2D" parent="."]
@@ -70,17 +70,16 @@ disabled = true
 
 [node name="StrongAttackSword" type="CollisionPolygon2D" parent="."]
 visible = false
-position = Vector2(54, 0)
-polygon = PackedVector2Array(15, -21, 15, 21, 97, 20, 119, 19, 133, 13, 126, -8, 115, -18, 73, -23)
+position = Vector2(2.57143, 0)
+polygon = PackedVector2Array(15, -21, 15, 21, 97, 20, 119, 19, 126, 10, 126, -8, 115, -18, 73, -23)
 disabled = true
 
 [node name="SpecialAttackSword" type="CollisionPolygon2D" parent="."]
 visible = false
-polygon = PackedVector2Array(24, -23, 106, -51, 121, -46, 188, -12, 188, 7, 174, 22, 90, 46, 75, 53, 12, 23)
+polygon = PackedVector2Array(17.1429, -27.1429, 78.5714, -54.2857, 107.143, -31.4286, 138.571, -2.85714, 121.429, 24.2857, 75, 53, 12, 23)
 disabled = true
 
 [node name="BasicAttackTimer" type="Timer" parent="."]
-wait_time = 0.5
 one_shot = true
 
 [node name="StrongAttackTimer" type="Timer" parent="."]

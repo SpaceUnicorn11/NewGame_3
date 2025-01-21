@@ -10,15 +10,16 @@ var type = "sword"
 var max_health = 100
 var health
 var attack_distance = 60
-var strong_attack_unlocked = false
-var special_attack_unlocked = false
+var strong_attack_unlocked = true
+var dash_unlocked = true
+var special_attack_unlocked = true
 
 
 func _ready():
 	match type:
 		"sword":
 			speed = 150
-			max_health = 30
+			max_health = 150
 			health = max_health
 			$Weapon.type = "sword"
 
@@ -52,25 +53,40 @@ func _physics_process(_delta):
 			moving_direction = moving_direction.normalized() * speed
 			if moving_direction.y < 0:
 				$AnimatedSprite2D.play('move_back')
+				$Weapon.show_behind_parent = true
+				$Weapon.position = Vector2(20, 8)
+				$Weapon.rotation = -45.7
 			elif moving_direction.y > 0:
 				$AnimatedSprite2D.play('move')
+				$Weapon.show_behind_parent = false
+				$Weapon.position = Vector2(-26, 12)
+				$Weapon.rotation = 45
 			elif moving_direction.x > 0:
 				$AnimatedSprite2D.play('move_right')
+				$Weapon.show_behind_parent = false
+				$Weapon.position = Vector2(14, 10)
+				$Weapon.rotation = 0
 			elif moving_direction.x < 0:
 				$AnimatedSprite2D.play('move_left')
+				$Weapon.show_behind_parent = false
+				$Weapon.position = Vector2(-16, 10)
+				$Weapon.rotation = 160.2
 			velocity = moving_direction.normalized() * speed
 			move_and_slide()
 		elif moving_direction.length() == 0:
 			$AnimatedSprite2D.play('default')
+			$Weapon.position = Vector2(-26, 12)
+			$Weapon.rotation = 45
+			$Weapon.show_behind_parent = false
 
 		if Input.is_action_pressed("basic_attack") && $Weapon/BasicAttackTimer.is_stopped() == true:
-			$Weapon.basic_attack()
+			$Weapon.basic_attack(moving_direction)
 		if Input.is_action_pressed("strong_attack") && $Weapon/StrongAttackTimer.is_stopped() == true:
-			$Weapon.strong_attack()
+			$Weapon.strong_attack(moving_direction)
 		if Input.is_action_pressed("special_attack") && $Weapon/SpecialAttackTimer.is_stopped() == true:
-			$Weapon.special_attack()
+			$Weapon.special_attack(moving_direction)
 
-		if Input.is_action_pressed("dash") && $DashTimer.is_stopped() == true:
+		if Input.is_action_pressed("dash") && dash_unlocked && $DashTimer.is_stopped() == true:
 			$CollisionShape2D.set_deferred("disabled", true)
 			$Hitbox/CollisionShape2D.set_deferred("disabled", true)
 			velocity = moving_direction.normalized() * (30 * speed)
@@ -85,27 +101,46 @@ func _physics_process(_delta):
 		if target == null:
 			target = get_node('/root/Main/Stage/ArenaCenter')
 		else:
+			var moving_direction = position.direction_to($NavigationAgent2D.target_position)
 			if $NavigationAgent2D.target_position.distance_to(position) > attack_distance:
 				$NavigationAgent2D.target_position = target.position
 				if can_move:
-					if ($NavigationAgent2D.get_next_path_position().x - position.x) > 0:
-						$AnimatedSprite2D.flip_h = false
-						#$Weapon/AnimatedSprite2D.flip_h = false
-						#$Weapon.position = Vector2(17, 6)
-					elif ($NavigationAgent2D.get_next_path_position().x - position.x) < 0:
-						$AnimatedSprite2D.flip_h = true
-						#$Weapon/AnimatedSprite2D.flip_h = true
-						#$Weapon.position = Vector2(-55, 6)
-					$AnimatedSprite2D.play('move')
+					if moving_direction.y < 0 && abs($NavigationAgent2D.get_next_path_position().x - position.x) < abs($NavigationAgent2D.get_next_path_position().y - position.y):
+						$AnimatedSprite2D.play('move_back')
+						$Weapon.show_behind_parent = true
+						$Weapon.position = Vector2(20, 8)
+						$Weapon.rotation = -45.7
+					elif moving_direction.y > 0 && abs($NavigationAgent2D.get_next_path_position().x - position.x) < abs($NavigationAgent2D.get_next_path_position().y - position.y):
+						$AnimatedSprite2D.play('move')
+						$Weapon.show_behind_parent = false
+						$Weapon.position = Vector2(-26, 12)
+						$Weapon.rotation = 45
+					elif moving_direction.x > 0 && abs($NavigationAgent2D.get_next_path_position().x - position.x) > abs($NavigationAgent2D.get_next_path_position().y - position.y):
+						$AnimatedSprite2D.play('move_right')
+						$Weapon.show_behind_parent = false
+						$Weapon.position = Vector2(14, 10)
+						$Weapon.rotation = 0
+					elif moving_direction.x < 0 && abs($NavigationAgent2D.get_next_path_position().x - position.x) > abs($NavigationAgent2D.get_next_path_position().y - position.y):
+						$AnimatedSprite2D.play('move_left')
+						$Weapon.show_behind_parent = false
+						$Weapon.position = Vector2(-16, 10)
+						$Weapon.rotation = 160.2
+					velocity = moving_direction.normalized() * speed
+					move_and_slide()
+				elif moving_direction.length() == 0:
+					$AnimatedSprite2D.play('default')
+					$Weapon.position = Vector2(-26, 12)
+					$Weapon.rotation = 45
+					$Weapon.show_behind_parent = false
 					velocity = position.direction_to($NavigationAgent2D.get_next_path_position()) * speed
 					move_and_slide()
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target != get_node('/root/Main/Stage/ArenaCenter'):
 				if rank > 1 && $Weapon/StrongAttackTimer.is_stopped() == true:
-					$Weapon.strong_attack()
+					$Weapon.strong_attack(moving_direction)
 				elif rank >= 1 && $Weapon/BasicAttackTimer.is_stopped() == true:
-					$Weapon.basic_attack()
+					$Weapon.basic_attack(moving_direction)
 				$NavigationAgent2D.set_target_position(target.position)
-				$AnimatedSprite2D.play('default')
+				#$AnimatedSprite2D.play('default')
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target == get_node('/root/Main/Stage/ArenaCenter'):
 				$DetectionArea/CollisionShape2D.disabled = true
 				if $DetectionArea/CollisionShape2D.scale < Vector2(4, 4):
@@ -155,6 +190,8 @@ func next_combat():
 	if get_parent().stage == 2:
 		strong_attack_unlocked = true
 	elif get_parent().stage == 3:
+		dash_unlocked = true
+	elif get_parent().stage == 4:
 		special_attack_unlocked = true
 	position = Vector2(640, 370)
 	health = max_health
