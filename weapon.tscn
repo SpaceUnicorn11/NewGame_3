@@ -1,18 +1,23 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1rtfdkasa3ft"]
+[gd_scene load_steps=11 format=3 uid="uid://c1rtfdkasa3ft"]
 
 [ext_resource type="Script" path="res://Scripts/Weapon.gd" id="1_tv7vw"]
 [ext_resource type="Texture2D" uid="uid://bnxgyrthfbnxc" path="res://Assets/Images/sword_basic_attack.png" id="2_bhpge"]
 [ext_resource type="Texture2D" uid="uid://bccwwfjgqo2iq" path="res://Assets/Images/sword_default.png" id="2_fpeb7"]
+[ext_resource type="Texture2D" uid="uid://coma25ibm8oth" path="res://Assets/Images/sword_basic_attack_2.png" id="3_g0xix"]
 [ext_resource type="Texture2D" uid="uid://ceuypdjdef3y6" path="res://Assets/Images/sword_special_attack.png" id="4_5ydal"]
 [ext_resource type="Texture2D" uid="uid://naa535nhwfcl" path="res://Assets/Images/sword_special_attack_2.png" id="5_nogpl"]
 [ext_resource type="Texture2D" uid="uid://dhilx5reqqvcg" path="res://Assets/Images/sword_special_attack_3.png" id="6_sfw2f"]
 [ext_resource type="Texture2D" uid="uid://beupkkg4kbva8" path="res://Assets/Images/sword_strong_attack.png" id="7_ujebd"]
+[ext_resource type="Texture2D" uid="uid://b4fdhj58ktw6e" path="res://Assets/Images/sword_strong_attack_2.png" id="8_jd5gg"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3pc7l"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_bhpge")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_g0xix")
 }],
 "loop": true,
 "name": &"basic_attack_sword",
@@ -34,6 +39,9 @@ animations = [{
 "texture": ExtResource("5_nogpl")
 }, {
 "duration": 1.0,
+"texture": ExtResource("7_ujebd")
+}, {
+"duration": 1.0,
 "texture": ExtResource("6_sfw2f")
 }],
 "loop": true,
@@ -43,6 +51,9 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("7_ujebd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_jd5gg")
 }],
 "loop": true,
 "name": &"strong_attack_sword",
@@ -50,6 +61,7 @@ animations = [{
 }]
 
 [node name="Weapon" type="AnimatableBody2D"]
+visible = false
 scale = Vector2(0.7, 0.7)
 collision_layer = 2
 collision_mask = 2
@@ -60,7 +72,7 @@ script = ExtResource("1_tv7vw")
 position = Vector2(-9, -50)
 sprite_frames = SubResource("SpriteFrames_3pc7l")
 animation = &"default_sword"
-frame_progress = 0.429095
+frame_progress = 0.698833
 centered = false
 
 [node name="BasicAttackSword" type="CollisionPolygon2D" parent="."]

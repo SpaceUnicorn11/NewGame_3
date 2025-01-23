@@ -27,27 +27,37 @@ func start_round():
 		1:
 			if next_player != null:
 				next_player.is_player = true
+				next_player.position = Vector2(640, 370)
+				next_player.health = next_player.max_health
 			$Sword.hide()
 			var stage_1_spawns = [Vector2(200,200), Vector2(200,550), Vector2(650,150), Vector2(650,600), Vector2(1100,200), Vector2(1100,550)]
 			for i in 6:
 				spawn_champion(stage_1_spawns[i])
 				champions_alive += 1
 		2:
+			next_player.position = Vector2(640, 370)
+			next_player.health = next_player.max_health
 			var stage_1_spawns = [Vector2(200,200), Vector2(200,550), Vector2(1100,200), Vector2(1100,550)]
 			for i in 4:
 				spawn_champion(stage_1_spawns[i])
 				champions_alive += 1
 		3:
+			next_player.position = Vector2(640, 370)
+			next_player.health = next_player.max_health
 			var stage_1_spawns = [Vector2(235,175), Vector2(1050,145), Vector2(640,610)]
 			for i in 3:
 				spawn_champion(stage_1_spawns[i])
 				champions_alive += 1
 		4:
+			next_player.position = Vector2(640, 370)
+			next_player.health = next_player.max_health
 			var stage_1_spawns = [Vector2(150,350), Vector2(1130,370)]
 			for i in 2:
 				spawn_champion(stage_1_spawns[i])
 				champions_alive += 1
 		5:
+			next_player.position = Vector2(640, 370)
+			next_player.health = next_player.max_health
 			var stage_1_spawns = [Vector2(1130,370)]
 			for i in 1:
 				spawn_champion(stage_1_spawns[i])
