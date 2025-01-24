@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://kifusg7w5o5"]
+[gd_scene load_steps=17 format=3 uid="uid://kifusg7w5o5"]
 
 [ext_resource type="Script" path="res://Scripts/Stage.gd" id="1_fseun"]
 [ext_resource type="PackedScene" uid="uid://bm3ed7362l3m4" path="res://champion.tscn" id="2_ra417"]
@@ -6,6 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://bb5sys7fvvn3w" path="res://Assets/Images/background.png" id="4_ymqeu"]
 [ext_resource type="PackedScene" uid="uid://dahy3it4dig5h" path="res://walls.tscn" id="5_pyot5"]
 [ext_resource type="PackedScene" uid="uid://c7dhlvbura3ye" path="res://sword.tscn" id="6_fguoh"]
+[ext_resource type="Texture2D" uid="uid://bsgvsuibkd4wl" path="res://Assets/Images/healthbar_under.png" id="7_tjpe2"]
+[ext_resource type="Texture2D" uid="uid://dwdm4h5qjehps" path="res://Assets/Images/healthbar_over.png" id="8_vp5o2"]
+[ext_resource type="Texture2D" uid="uid://djcyr23yglf13" path="res://Assets/Images/healthbar_progress.png" id="9_tyocm"]
+[ext_resource type="Texture2D" uid="uid://c8gslhruoex7h" path="res://Assets/Images/basic_cooldown_under.png" id="10_ktwsf"]
+[ext_resource type="Texture2D" uid="uid://d07igktb8ifbe" path="res://Assets/Images/cooldown_over.png" id="11_ep1gw"]
+[ext_resource type="Texture2D" uid="uid://dbipt6iojddkv" path="res://Assets/Images/strong_cooldown_under.png" id="12_are2e"]
+[ext_resource type="Texture2D" uid="uid://bwl314x5wqvev" path="res://Assets/Images/cooldown_progress.png" id="12_nn8p8"]
+[ext_resource type="Texture2D" uid="uid://cc4btx5ar2s4n" path="res://Assets/Images/special_cooldown_under.png" id="13_rvdui"]
+[ext_resource type="Texture2D" uid="uid://74y6073vehn" path="res://Assets/Images/dash_cooldown_under.png" id="14_jqv6o"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_57348"]
 vertices = PackedVector2Array(648.938, 35, 819.898, 35.9922, 819.898, 36, 343.633, 670, 291.75, 663.141, 227.891, 650.367, 154.156, 619.727, 116.43, 573.508, 83.7188, 508.102, 77.0078, 449.578, 80.0078, 307.758, 833.844, 670, 1042.07, 660.141, 959.523, 668, 77.0703, 265.688, 92.3984, 192.859, 120.203, 149.727, 153.008, 108.227, 198.289, 74.5234, 237.258, 54.5625, 305.289, 41.9297, 368.461, 36.9922, 444.258, 35, 920.609, 36.9922, 996.672, 41.9297, 1081.78, 59.5391, 1117.33, 76.3828, 1157.47, 113.656, 1186.37, 153.148, 1210.2, 203.656, 1217.05, 275.977, 1169.3, 605.391, 1115.89, 638.773, 1222.99, 334.469, 1222, 452.906, 1220.05, 506.359, 1202.98, 564.227)
@@ -24,9 +33,6 @@ offset_bottom = 720.0
 texture = ExtResource("4_ymqeu")
 stretch_mode = 1
 
-[node name="Champion" parent="." instance=ExtResource("2_ra417")]
-position = Vector2(640, 370)
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_57348")
 
@@ -36,4 +42,114 @@ navigation_polygon = SubResource("NavigationPolygon_57348")
 position = Vector2(640, 347)
 
 [node name="Sword" parent="." instance=ExtResource("6_fguoh")]
+visible = false
 position = Vector2(640, 360)
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+z_index = 5
+offset_left = 230.0
+offset_top = 650.0
+offset_right = 1030.0
+offset_bottom = 700.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("7_tjpe2")
+texture_over = ExtResource("8_vp5o2")
+texture_progress = ExtResource("9_tyocm")
+
+[node name="HealthValue" type="Label" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -11.0
+offset_right = -9.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "150"
+
+[node name="Label" type="Label" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -11.0
+offset_right = 16.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "/"
+
+[node name="MaxHealthValue" type="Label" parent="HealthBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -11.0
+offset_right = 27.0
+offset_bottom = 12.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "150"
+
+[node name="BasicCooldown" type="TextureProgressBar" parent="."]
+z_index = 5
+offset_left = 535.0
+offset_top = 595.0
+offset_right = 585.0
+offset_bottom = 645.0
+step = 0.1
+fill_mode = 3
+nine_patch_stretch = true
+texture_under = ExtResource("10_ktwsf")
+texture_over = ExtResource("11_ep1gw")
+texture_progress = ExtResource("12_nn8p8")
+
+[node name="StrongCooldown" type="TextureProgressBar" parent="."]
+z_index = 5
+offset_left = 597.0
+offset_top = 595.0
+offset_right = 647.0
+offset_bottom = 645.0
+step = 0.1
+fill_mode = 3
+nine_patch_stretch = true
+texture_under = ExtResource("12_are2e")
+texture_over = ExtResource("11_ep1gw")
+texture_progress = ExtResource("12_nn8p8")
+
+[node name="SpecialCooldown" type="TextureProgressBar" parent="."]
+z_index = 5
+offset_left = 658.0
+offset_top = 595.0
+offset_right = 708.0
+offset_bottom = 645.0
+step = 0.1
+fill_mode = 3
+nine_patch_stretch = true
+texture_under = ExtResource("13_rvdui")
+texture_over = ExtResource("11_ep1gw")
+texture_progress = ExtResource("12_nn8p8")
+
+[node name="DashCooldown" type="TextureProgressBar" parent="."]
+z_index = 5
+offset_left = 780.0
+offset_top = 595.0
+offset_right = 830.0
+offset_bottom = 645.0
+step = 0.1
+fill_mode = 3
+nine_patch_stretch = true
+texture_under = ExtResource("14_jqv6o")
+texture_over = ExtResource("11_ep1gw")
+texture_progress = ExtResource("12_nn8p8")

@@ -111,7 +111,6 @@ scale = Vector2(0.7, 0.7)
 script = ExtResource("1_x1g4x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(-1, 21)
 shape = SubResource("CapsuleShape2D_b4vo1")
 
@@ -128,14 +127,12 @@ avoidance_enabled = true
 radius = 80.0
 
 [node name="DetectionArea" type="Area2D" parent="."]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_yq2n0")
 disabled = true
 
 [node name="Hitbox" type="Area2D" parent="."]
-visible = false
 collision_layer = 3
 collision_mask = 3
 monitorable = false
@@ -145,6 +142,10 @@ shape = SubResource("CapsuleShape2D_sl7h6")
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 2.0
+one_shot = true
+
+[node name="TargetChangeTimer" type="Timer" parent="."]
+wait_time = 5.0
 one_shot = true
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_area_2d_body_entered"]

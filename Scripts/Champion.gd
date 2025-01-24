@@ -9,7 +9,7 @@ var rank = 1
 var type = "sword"
 var max_health = 100
 var health
-var attack_distance = 60
+var attack_distance = 50
 var strong_attack_unlocked = true
 var dash_unlocked = true
 var special_attack_unlocked = true
@@ -37,6 +37,10 @@ func _ready():
 		$Hitbox.collision_layer = 3
 		z_index = 3
 		get_parent().next_combat.connect(next_combat)
+		get_node('/root/Main/Stage/HealthBar').max_value = max_health
+		get_node('/root/Main/Stage/HealthBar').value = health
+		get_node('/root/Main/Stage/HealthBar/HealthValue').text = str(health)
+		get_node('/root/Main/Stage/HealthBar/MaxHealthValue').text = str(max_health)
 
 func _physics_process(_delta):
 	if is_player && can_move:
@@ -109,6 +113,12 @@ func _physics_process(_delta):
 			await get_tree().create_timer(0.1).timeout
 			$CollisionShape2D.set_deferred("disabled", false)
 			$Hitbox/CollisionShape2D.set_deferred("disabled", false)
+		
+		if !$DashTimer.is_stopped():
+			get_node('/root/Main/Stage/DashCooldown').max_value = $DashTimer.wait_time
+			get_node('/root/Main/Stage/DashCooldown').value = $DashTimer.wait_time - $DashTimer.time_left
+		elif $DashTimer.is_stopped():
+			get_node('/root/Main/Stage/DashCooldown').value = 0
 
 
 	elif !is_player && can_move:
@@ -168,22 +178,22 @@ func _physics_process(_delta):
 					$Weapon.basic_attack(moving_direction)
 				$NavigationAgent2D.set_target_position(target.position)
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target == get_node('/root/Main/Stage/ArenaCenter'):
-				$DetectionArea/CollisionShape2D.disabled = true
-				if $DetectionArea/CollisionShape2D.scale < Vector2(4, 4):
-					$DetectionArea/CollisionShape2D.scale += Vector2(0.1, 0.1)
-				else:
-					$DetectionArea/CollisionShape2D.scale = Vector2(0, 0)
-				$DetectionArea/CollisionShape2D.disabled = false
 				$NavigationAgent2D.set_target_position(target.position)
 				$AnimatedSprite2D.play('default')
+		if $DetectionArea/CollisionShape2D.scale < Vector2(7, 7):
+			$DetectionArea/CollisionShape2D.scale += Vector2(0.1, 0.1)
+		else:
+			$DetectionArea/CollisionShape2D.scale = Vector2(0, 0)
 
 
 func _on_area_2d_body_entered(body): #chance to change target if its close
 	if body != get_node('/root/Main/Stage/Walls'):
 		if body.is_player == true && target == get_node('/root/Main/Stage/ArenaCenter'):
 			target = body
-		elif body.position != position && randi_range(1, 10) * rank < 10:
+			$TargetChangeTimer.start()
+		elif body.position != position && randi_range(1, 10) * rank < 10 && $TargetChangeTimer.is_stopped():
 			target = body
+			$TargetChangeTimer.start()
 
 
 func _on_hitbox_body_entered(body):
@@ -192,16 +202,22 @@ func _on_hitbox_body_entered(body):
 		$AnimatedSprite2D.hide()
 		if health - body.damage > 0:
 			health -= body.damage
+			if is_player:
+				get_node('/root/Main/Stage/HealthBar/HealthValue').text = str(health)
+				get_node('/root/Main/Stage/HealthBar').value = health
 			velocity = position.direction_to(body.position) * -2000
 			move_and_slide()
 			await get_tree().create_timer(0.1).timeout
 			$AnimatedSprite2D.show()
 			await get_tree().create_timer(0.4).timeout
 			$Hitbox/CollisionShape2D.set_deferred("disabled", false)
+			
 		elif health - body.damage <= 0:
 			health = 0
 			if is_player:
 				get_parent().stage = 0
+				get_node('/root/Main/Stage/HealthBar/HealthValue').text = str(health)
+				get_node('/root/Main/Stage/HealthBar').value = health
 			death()
 			get_parent().next_player = body.get_parent()
 

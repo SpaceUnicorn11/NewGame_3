@@ -16,7 +16,24 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	pass
+	if get_parent().is_player:
+		if !$BasicAttackTimer.is_stopped():
+			get_node('/root/Main/Stage/BasicCooldown').max_value = $BasicAttackTimer.wait_time
+			get_node('/root/Main/Stage/BasicCooldown').value = $BasicAttackTimer.wait_time - $BasicAttackTimer.time_left
+		elif $BasicAttackTimer.is_stopped():
+			get_node('/root/Main/Stage/BasicCooldown').value = 0
+
+		if !$StrongAttackTimer.is_stopped():
+			get_node('/root/Main/Stage/StrongCooldown').max_value = $StrongAttackTimer.wait_time
+			get_node('/root/Main/Stage/StrongCooldown').value = $StrongAttackTimer.wait_time - $StrongAttackTimer.time_left
+		elif $StrongAttackTimer.is_stopped():
+			get_node('/root/Main/Stage/StrongCooldown').value = 0
+
+		if !$SpecialAttackTimer.is_stopped():
+			get_node('/root/Main/Stage/SpecialCooldown').max_value = $SpecialAttackTimer.wait_time
+			get_node('/root/Main/Stage/SpecialCooldown').value = $SpecialAttackTimer.wait_time - $SpecialAttackTimer.time_left
+		elif $SpecialAttackTimer.is_stopped():
+			get_node('/root/Main/Stage/SpecialCooldown').value = 0
 
 func basic_attack(moving_direction):
 	match type:
@@ -104,3 +121,8 @@ func special_attack(moving_direction):
 					await get_tree().create_timer(0.2).timeout
 					$AnimatedSprite2D.stop()
 					hide()
+
+func reset_timers():
+	$BasicAttackTimer.stop()
+	$StrongAttackTimer.stop()
+	$SpecialAttackTimer.stop()
