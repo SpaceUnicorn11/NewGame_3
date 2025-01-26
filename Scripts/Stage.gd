@@ -25,6 +25,9 @@ func start_round():
 				#spawn_champion(stage_1_spawns[i])
 				#champions_alive += 1
 		1:
+			$StrongCooldown.hide()
+			$SpecialCooldown.hide()
+			$DashCooldown.hide()
 			if next_player != null:
 				next_player.is_player = true
 				next_player.position = Vector2(640, 370)
@@ -39,6 +42,7 @@ func start_round():
 			for i in 6:
 				spawn_champion(stage_1_spawns[i])
 				champions_alive += 1
+			$StageNumer/Value.text = str(stage)
 		2:
 			if next_player != null:
 				next_player.position = Vector2(640, 370)
@@ -52,6 +56,7 @@ func start_round():
 				for i in 4:
 					spawn_champion(stage_2_spawns[i])
 					champions_alive += 1
+				$StageNumer/Value.text = str(stage)
 			else:
 				all_dead()
 		3:
@@ -67,6 +72,7 @@ func start_round():
 				for i in 3:
 					spawn_champion(stage_3_spawns[i])
 					champions_alive += 1
+				$StageNumer/Value.text = str(stage)
 			else:
 				all_dead()
 		4:
@@ -82,6 +88,7 @@ func start_round():
 				for i in 2:
 					spawn_champion(stage_4_spawns[i])
 					champions_alive += 1
+				$StageNumer/Value.text = str(stage)
 			else:
 				all_dead()
 		5:
@@ -97,8 +104,11 @@ func start_round():
 				for i in 1:
 					spawn_champion(stage_5_spawns[i])
 					champions_alive += 1
+				$StageNumer/Value.text = str(stage)
 			else:
 				all_dead()
+		6:
+			get_parent().victory()
 
 func spawn_champion(spawn_position):
 	var champion = champion_scene.instantiate()
@@ -109,8 +119,8 @@ func spawn_champion(spawn_position):
 	else:
 		champion.is_player = false
 	champion.type = "sword" #champion_types[randi_range(0, 2)]
+	champion.rank = stage
 	champion.position = spawn_position
-	
 	add_child(champion)
 
 func spawn_corpse(corpse_position):

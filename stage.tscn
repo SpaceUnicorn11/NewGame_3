@@ -34,6 +34,7 @@ texture = ExtResource("4_ymqeu")
 stretch_mode = 1
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
 navigation_polygon = SubResource("NavigationPolygon_57348")
 
 [node name="Walls" parent="." instance=ExtResource("5_pyot5")]
@@ -116,6 +117,7 @@ texture_over = ExtResource("11_ep1gw")
 texture_progress = ExtResource("12_nn8p8")
 
 [node name="StrongCooldown" type="TextureProgressBar" parent="."]
+visible = false
 z_index = 5
 offset_left = 597.0
 offset_top = 595.0
@@ -129,6 +131,7 @@ texture_over = ExtResource("11_ep1gw")
 texture_progress = ExtResource("12_nn8p8")
 
 [node name="SpecialCooldown" type="TextureProgressBar" parent="."]
+visible = false
 z_index = 5
 offset_left = 658.0
 offset_top = 595.0
@@ -142,6 +145,7 @@ texture_over = ExtResource("11_ep1gw")
 texture_progress = ExtResource("12_nn8p8")
 
 [node name="DashCooldown" type="TextureProgressBar" parent="."]
+visible = false
 z_index = 5
 offset_left = 780.0
 offset_top = 595.0
@@ -153,3 +157,29 @@ nine_patch_stretch = true
 texture_under = ExtResource("14_jqv6o")
 texture_over = ExtResource("11_ep1gw")
 texture_progress = ExtResource("12_nn8p8")
+
+[node name="StageNumer" type="Label" parent="."]
+offset_left = 543.0
+offset_top = 2.0
+offset_right = 636.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 35
+text = "Stage"
+
+[node name="Value" type="Label" parent="StageNumer"]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 2.0
+offset_right = 145.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 35
+text = "1"
+
+[node name="Label" type="Label" parent="StageNumer"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 2.0
+offset_right = 165.0
+offset_bottom = 51.0
+theme_override_font_sizes/font_size = 35
+text = "/5"

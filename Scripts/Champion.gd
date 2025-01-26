@@ -10,9 +10,9 @@ var type = "sword"
 var max_health = 100
 var health
 var attack_distance = 50
-var strong_attack_unlocked = true
-var dash_unlocked = true
-var special_attack_unlocked = true
+var strong_attack_unlocked = false
+var dash_unlocked = false
+var special_attack_unlocked = false
 var last_direction = Vector2.ZERO
 
 
@@ -20,7 +20,7 @@ func _ready():
 	match type:
 		"sword":
 			speed = 150
-			max_health = 150
+			max_health = 150 + 20 * rank
 			health = max_health
 			$Weapon.type = "sword"
 
@@ -98,11 +98,11 @@ func _physics_process(_delta):
 					last_direction = Vector2.ZERO
 
 		if Input.is_action_pressed("basic_attack") && $Weapon/BasicAttackTimer.is_stopped() == true:
-			$Weapon.basic_attack(moving_direction)
+			$Weapon.basic_attack()
 		if Input.is_action_pressed("strong_attack") && $Weapon/StrongAttackTimer.is_stopped() == true:
-			$Weapon.strong_attack(moving_direction)
+			$Weapon.strong_attack()
 		if Input.is_action_pressed("special_attack") && $Weapon/SpecialAttackTimer.is_stopped() == true:
-			$Weapon.special_attack(moving_direction)
+			$Weapon.special_attack()
 
 		if Input.is_action_pressed("dash") && dash_unlocked && $DashTimer.is_stopped() == true:
 			$CollisionShape2D.set_deferred("disabled", true)
@@ -172,10 +172,23 @@ func _physics_process(_delta):
 					velocity = position.direction_to($NavigationAgent2D.get_next_path_position()) * speed
 					move_and_slide()
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target != get_node('/root/Main/Stage/ArenaCenter'):
+				match last_direction:
+						Vector2(-1, 0):
+							$AnimatedSprite2D.play('default_left')
+							last_direction = Vector2.ZERO
+						Vector2(1, 0):
+							$AnimatedSprite2D.play('default_right')
+							last_direction = Vector2.ZERO
+						Vector2(0, 1):
+							$AnimatedSprite2D.play('default')
+							last_direction = Vector2.ZERO
+						Vector2(0, -1):
+							$AnimatedSprite2D.play('default_back')
+							last_direction = Vector2.ZERO
 				if rank > 1 && $Weapon/StrongAttackTimer.is_stopped() == true:
-					$Weapon.strong_attack(moving_direction)
+					$Weapon.strong_attack()
 				elif rank >= 1 && $Weapon/BasicAttackTimer.is_stopped() == true:
-					$Weapon.basic_attack(moving_direction)
+					$Weapon.basic_attack()
 				$NavigationAgent2D.set_target_position(target.position)
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target == get_node('/root/Main/Stage/ArenaCenter'):
 				$NavigationAgent2D.set_target_position(target.position)
@@ -211,7 +224,6 @@ func _on_hitbox_body_entered(body):
 			$AnimatedSprite2D.show()
 			await get_tree().create_timer(0.4).timeout
 			$Hitbox/CollisionShape2D.set_deferred("disabled", false)
-			
 		elif health - body.damage <= 0:
 			health = 0
 			if is_player:
@@ -219,7 +231,8 @@ func _on_hitbox_body_entered(body):
 				get_node('/root/Main/Stage/HealthBar/HealthValue').text = str(health)
 				get_node('/root/Main/Stage/HealthBar').value = health
 			death()
-			get_parent().next_player = body.get_parent()
+			if get_parent().next_player == null:
+				get_parent().next_player = body.get_parent()
 
 func death():
 	can_move = false
@@ -231,9 +244,12 @@ func death():
 func next_combat():
 	if get_parent().stage == 2:
 		strong_attack_unlocked = true
+		get_node('/root/Main/Stage/StrongCooldown').show()
 	elif get_parent().stage == 3:
 		dash_unlocked = true
+		get_node('/root/Main/Stage/DashCooldown').show()
 	elif get_parent().stage == 4:
 		special_attack_unlocked = true
+		get_node('/root/Main/Stage/SpecialCooldown').show()
 	if is_player:
 		z_index = 3
