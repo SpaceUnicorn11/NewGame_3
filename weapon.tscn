@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://c1rtfdkasa3ft"]
+[gd_scene load_steps=49 format=3 uid="uid://c1rtfdkasa3ft"]
 
 [ext_resource type="Script" path="res://Scripts/Weapon.gd" id="1_tv7vw"]
 [ext_resource type="Texture2D" uid="uid://cy0pnjkumvsnu" path="res://Assets/Images/axe_basic_attack.png" id="2_bfh2u"]
@@ -46,6 +46,7 @@
 [ext_resource type="Texture2D" uid="uid://cucqkvynjoh3m" path="res://Assets/Images/simple_sword_strong_attack_2.png" id="43_7nofx"]
 [ext_resource type="Texture2D" uid="uid://caatns4iuhfel" path="res://Assets/Images/spear_strong_attack.png" id="44_55bxs"]
 [ext_resource type="Texture2D" uid="uid://dbfd6235rpqko" path="res://Assets/Images/spear_strong_attack_2.png" id="45_5jb3j"]
+[ext_resource type="AudioStream" uid="uid://b5urooojqyl31" path="res://Assets/Sounds/weapon/59992__qubodup__swosh-sword-swing.mp3" id="47_mchfi"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3pc7l"]
 animations = [{
@@ -356,3 +357,7 @@ visible = false
 position = Vector2(2.57143, 0)
 polygon = PackedVector2Array(4.57143, -15.7143, 4.57143, 21.4286, 86, 31.4286, 120.286, 24.2857, 170.286, 10, 170.286, -7.14286, 126, -22.8571, 80.2857, -27.1429)
 disabled = true
+
+[node name="WeaponSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("47_mchfi")
+pitch_scale = 1.41

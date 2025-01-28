@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dmd7se8gwgvax"
+path="res://.godot/imported/Gregor Quendel - Crowd Cheering Sounds - 04 - Strong cheering - II - Short (mp3cut.net).mp3-57c805a3ba2d1cbd05eaac20fa828358.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/background/Gregor Quendel - Crowd Cheering Sounds - 04 - Strong cheering - II - Short (mp3cut.net).mp3"
+dest_files=["res://.godot/imported/Gregor Quendel - Crowd Cheering Sounds - 04 - Strong cheering - II - Short (mp3cut.net).mp3-57c805a3ba2d1cbd05eaac20fa828358.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

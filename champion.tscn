@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://bm3ed7362l3m4"]
+[gd_scene load_steps=80 format=3 uid="uid://bm3ed7362l3m4"]
 
 [ext_resource type="Script" path="res://Scripts/Champion.gd" id="1_x1g4x"]
 [ext_resource type="Texture2D" uid="uid://dqecdw61q0k5o" path="res://Assets/Images/champion_default.png" id="1_yibvv"]
@@ -74,6 +74,7 @@
 [ext_resource type="Texture2D" uid="uid://dn382a507m1n6" path="res://Assets/Images/champion_move_2_simple_sword.png" id="71_2imjk"]
 [ext_resource type="Texture2D" uid="uid://clbsvpr35pg7j" path="res://Assets/Images/champion_move_spear.png" id="72_2fjl0"]
 [ext_resource type="Texture2D" uid="uid://dkiftq6li257n" path="res://Assets/Images/champion_move_2_spear.png" id="73_k2dew"]
+[ext_resource type="AudioStream" uid="uid://dv66th6dval0f" path="res://Assets/Sounds/hit/sword-1a.wav" id="75_yiru0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_b4vo1"]
 radius = 18.0
@@ -550,8 +551,8 @@ animations = [{
 radius = 115.004
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sl7h6"]
-radius = 21.0
-height = 108.0
+radius = 28.5714
+height = 102.857
 
 [node name="Champion" type="CharacterBody2D"]
 z_index = 2
@@ -587,6 +588,7 @@ collision_mask = 3
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-1.42857, 0)
 shape = SubResource("CapsuleShape2D_sl7h6")
 
 [node name="DashTimer" type="Timer" parent="."]
@@ -596,6 +598,9 @@ one_shot = true
 [node name="TargetChangeTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("75_yiru0")
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

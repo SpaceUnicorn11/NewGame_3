@@ -25,7 +25,6 @@ var move_right_animation = 'move_right'
 var move_left_animation = 'move_left'
 
 
-
 func _ready():
 	change_animations()
 	match type:
@@ -142,7 +141,6 @@ func _physics_process(_delta):
 		elif $DashTimer.is_stopped():
 			get_node('/root/Main/Stage/DashCooldown').value = 0
 
-
 	elif !is_player && can_move:
 		if target == null:
 			target = get_node('/root/Main/Stage/ArenaCenter')
@@ -194,6 +192,19 @@ func _physics_process(_delta):
 					velocity = position.direction_to($NavigationAgent2D.get_next_path_position()) * speed
 					move_and_slide()
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target != get_node('/root/Main/Stage/ArenaCenter'):
+				if (position.y - target.position.y) > 0 && (abs(position.y - target.position.y) > abs(position.x - target.position.x)):
+						$Weapon.show_behind_parent = true
+						last_direction = Vector2(0, -1)
+				elif (position.y - target.position.y) < 0 && (abs(position.y - target.position.y) > abs(position.x - target.position.x)):
+					$Weapon.show_behind_parent = false
+					last_direction = Vector2(0, 1)
+				elif (position.x - target.position.x) < 0 && (abs(position.y - target.position.y) < abs(position.x - target.position.x)):
+					$Weapon.show_behind_parent = false
+					last_direction = Vector2(1, 0)
+				elif (position.x - target.position.x) > 0 && (abs(position.y - target.position.y) < abs(position.x - target.position.x)):
+					$Weapon.show_behind_parent = false
+					last_direction = Vector2(-1, 0)
+				$NavigationAgent2D.set_target_position(target.position)
 				match last_direction:
 						Vector2(-1, 0):
 							$AnimatedSprite2D.play(default_left)
@@ -208,10 +219,11 @@ func _physics_process(_delta):
 							$AnimatedSprite2D.play(default_back)
 							last_direction = Vector2.ZERO
 				if rank > 1 && $Weapon/StrongAttackTimer.is_stopped() == true:
+					await get_tree().create_timer(0.3).timeout
 					$Weapon.strong_attack()
 				elif rank >= 1 && $Weapon/BasicAttackTimer.is_stopped() == true:
+					await get_tree().create_timer(0.3).timeout
 					$Weapon.basic_attack()
-				$NavigationAgent2D.set_target_position(target.position)
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target == get_node('/root/Main/Stage/ArenaCenter'):
 				$NavigationAgent2D.set_target_position(target.position)
 				$AnimatedSprite2D.play(default)
@@ -219,7 +231,6 @@ func _physics_process(_delta):
 			$DetectionArea/CollisionShape2D.scale += Vector2(0.1, 0.1)
 		else:
 			$DetectionArea/CollisionShape2D.scale = Vector2(0, 0)
-
 
 func _on_area_2d_body_entered(body): #chance to change target if its close
 	if body != get_node('/root/Main/Stage/Walls'):
@@ -229,7 +240,6 @@ func _on_area_2d_body_entered(body): #chance to change target if its close
 		elif body.position != position && randi_range(1, 10) * rank < 10 && $TargetChangeTimer.is_stopped():
 			target = body
 			$TargetChangeTimer.start()
-
 
 func _on_hitbox_body_entered(body):
 	if body.is_weapon && body != $Weapon:
@@ -242,6 +252,7 @@ func _on_hitbox_body_entered(body):
 				get_node('/root/Main/Stage/HealthBar').value = health
 			velocity = position.direction_to(body.position) * -150 * knockback
 			move_and_slide()
+			$HitSound.play()
 			await get_tree().create_timer(0.1).timeout
 			$AnimatedSprite2D.show()
 			await get_tree().create_timer(0.4).timeout
@@ -250,6 +261,7 @@ func _on_hitbox_body_entered(body):
 			health = 0
 			if is_player:
 				get_parent().stage = 0
+				get_node('/root/Main/Stage/CrowdSounds').play()
 				get_node('/root/Main/Stage/HealthBar/HealthValue').text = str(health)
 				get_node('/root/Main/Stage/HealthBar').value = health
 			death()
@@ -275,7 +287,6 @@ func next_combat():
 		get_node('/root/Main/Stage/SpecialCooldown').show()
 	if is_player:
 		z_index = 3
-
 
 func change_animations():
 	$Weapon.change_animations()

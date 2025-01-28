@@ -7,6 +7,7 @@ func _ready():
 	$StartImage.show()
 	$PauseMenu.hide()
 	$VictoryMenu.hide()
+	$Music.play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -14,12 +15,15 @@ func _process(_delta):
 	if Input.is_action_pressed("pause_menu") && $PauseMenu.visible == false && $StartImage.visible == false:
 		$PauseMenu.show()
 		pause_game()
+	if !$Music.playing:
+		$Music.play()
 
 
 func _on_start_game_pressed():
 	var stage = stage_scene.instantiate()
 	add_child(stage)
 	$StartImage.hide()
+	$Music.volume_db = -10
 
 func pause_game():
 	get_tree().paused = true

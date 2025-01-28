@@ -1,6 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://b1fu8qnmx72qy"]
+[gd_scene load_steps=15 format=3 uid="uid://b1fu8qnmx72qy"]
 
 [ext_resource type="Texture2D" uid="uid://buyqasd3i3dtr" path="res://Assets/Images/champion_dead.png" id="1_kfmxw"]
+[ext_resource type="Script" path="res://Scripts/Corpse.gd" id="2_0jmlc"]
+[ext_resource type="AudioStream" uid="uid://irlvtc03sun" path="res://Assets/Sounds/death/death.wav" id="3_iv4iy"]
+[ext_resource type="AudioStream" uid="uid://xruiqamnyjm6" path="res://Assets/Sounds/death/death_2.wav" id="4_yuyb4"]
+[ext_resource type="AudioStream" uid="uid://dunyalxt3g2w5" path="res://Assets/Sounds/death/death_3.wav" id="5_0tr16"]
+[ext_resource type="AudioStream" uid="uid://nfyjf8qqpvow" path="res://Assets/Sounds/death/death_4.wav" id="6_1togw"]
+[ext_resource type="AudioStream" uid="uid://c3v7w73e6jjek" path="res://Assets/Sounds/death/death_5.wav" id="7_5ius3"]
+[ext_resource type="AudioStream" uid="uid://ihsfxquqpyn0" path="res://Assets/Sounds/death/death_6.wav" id="8_hnpj2"]
+[ext_resource type="AudioStream" uid="uid://rcpip7np5wdx" path="res://Assets/Sounds/death/death_7.wav" id="9_8a1qd"]
+[ext_resource type="AudioStream" uid="uid://cv3jqkb8rwbe3" path="res://Assets/Sounds/death/death_8.wav" id="10_pofhw"]
+[ext_resource type="AudioStream" uid="uid://ceqtcscnsq5vs" path="res://Assets/Sounds/death/death_9.wav" id="11_qaftx"]
+[ext_resource type="AudioStream" uid="uid://c4gbv5f411r2d" path="res://Assets/Sounds/death/death_10.wav" id="12_b7vv1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fsjwb"]
 animations = [{
@@ -13,7 +24,25 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6jeoq"]
+playback_mode = 1
+streams_count = 10
+stream_0/stream = ExtResource("3_iv4iy")
+stream_1/stream = ExtResource("4_yuyb4")
+stream_2/stream = ExtResource("5_0tr16")
+stream_3/stream = ExtResource("6_1togw")
+stream_4/stream = ExtResource("7_5ius3")
+stream_5/stream = ExtResource("8_hnpj2")
+stream_6/stream = ExtResource("9_8a1qd")
+stream_7/stream = ExtResource("10_pofhw")
+stream_8/stream = ExtResource("11_qaftx")
+stream_9/stream = ExtResource("12_b7vv1")
+
 [node name="Corpse" type="AnimatedSprite2D"]
 z_index = 1
 scale = Vector2(0.7, 0.7)
 sprite_frames = SubResource("SpriteFrames_fsjwb")
+script = ExtResource("2_0jmlc")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_6jeoq")

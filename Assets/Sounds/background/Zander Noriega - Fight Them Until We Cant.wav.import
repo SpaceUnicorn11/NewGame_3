@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bx7lx82n8k0n0"
+path="res://.godot/imported/Zander Noriega - Fight Them Until We Cant.wav-a93184872798b65a0c76e94785de2ddd.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/background/Zander Noriega - Fight Them Until We Cant.wav"
+dest_files=["res://.godot/imported/Zander Noriega - Fight Them Until We Cant.wav-a93184872798b65a0c76e94785de2ddd.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

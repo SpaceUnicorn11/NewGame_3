@@ -93,6 +93,18 @@ func start_round():
 			else:
 				all_dead()
 		5:
+			#var stage_4_spawns = [Vector2(150,350), Vector2(1130,370)]    //for testing 1v1
+			#for i in 2:
+				#spawn_champion(stage_4_spawns[i])
+				#champions_alive += 1
+			#$StageNumer/Value.text = str(stage)
+			#next_player.position = Vector2(640, 370)
+			#next_player.health = next_player.max_health
+			#$HealthBar/HealthValue.text = str(next_player.health)
+			#$HealthBar.value = next_player.health
+			#$HealthBar/MaxHealthValue.text = str(next_player.max_health)
+			#$HealthBar.max_value = next_player.max_health
+		
 			if next_player != null:
 				next_player.position = Vector2(150, 370)
 				next_player.health = next_player.max_health
@@ -109,7 +121,9 @@ func start_round():
 			else:
 				all_dead()
 		6:
-			get_parent().victory()
+			$CrowdSoundsVictory.play()
+			get_tree().quit()
+			#get_parent().victory()
 
 func spawn_champion(spawn_position):
 	var champion = champion_scene.instantiate()

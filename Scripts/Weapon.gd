@@ -14,7 +14,6 @@ func _ready():
 	damage_bonus = get_parent().rank
 	change_animations()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if get_parent().is_player:
@@ -46,6 +45,7 @@ func basic_attack():
 				$AnimatedSprite2D.play(basic_attack_animation)
 				$BasicAttackSword.set_deferred("disabled", false)
 				$BasicAttackSword.show()
+				weapon_sound()
 				await get_tree().create_timer(0.3).timeout
 				$AnimatedSprite2D.stop()
 				$BasicAttackSword.set_deferred("disabled", true)
@@ -59,6 +59,7 @@ func basic_attack():
 				$AnimatedSprite2D.play(basic_attack_animation)
 				$BasicAttackAxe.set_deferred("disabled", false)
 				$BasicAttackAxe.show()
+				weapon_sound()
 				await get_tree().create_timer(0.4).timeout
 				$AnimatedSprite2D.stop()
 				$BasicAttackAxe.set_deferred("disabled", true)
@@ -72,6 +73,7 @@ func basic_attack():
 				$AnimatedSprite2D.play(basic_attack_animation)
 				$BasicAttackSpear.set_deferred("disabled", false)
 				$BasicAttackSpear.show()
+				weapon_sound()
 				await get_tree().create_timer(0.2).timeout
 				$AnimatedSprite2D.stop()
 				$BasicAttackSpear.set_deferred("disabled", true)
@@ -89,6 +91,7 @@ func strong_attack():
 					$AnimatedSprite2D.play(strong_attack_animation)
 					$StrongAttackSword.set_deferred("disabled", false)
 					$StrongAttackSword.show()
+					weapon_sound()
 					await get_tree().create_timer(0.4).timeout
 					$AnimatedSprite2D.stop()
 					$StrongAttackSword.set_deferred("disabled", true)
@@ -102,6 +105,7 @@ func strong_attack():
 					$AnimatedSprite2D.play(strong_attack_animation)
 					$StrongAttackAxe.set_deferred("disabled", false)
 					$StrongAttackAxe.show()
+					weapon_sound()
 					await get_tree().create_timer(0.5).timeout
 					$AnimatedSprite2D.stop()
 					$StrongAttackAxe.set_deferred("disabled", true)
@@ -115,6 +119,7 @@ func strong_attack():
 					$AnimatedSprite2D.play(strong_attack_animation)
 					$StrongAttackSpear.set_deferred("disabled", false)
 					$StrongAttackSpear.show()
+					weapon_sound()
 					await get_tree().create_timer(0.3).timeout
 					$AnimatedSprite2D.stop()
 					$StrongAttackSpear.set_deferred("disabled", true)
@@ -132,7 +137,10 @@ func special_attack():
 					$AnimatedSprite2D.play(special_attack_animation)
 					$SpecialAttackSword.set_deferred("disabled", false)
 					$SpecialAttackSword.show()
-					await get_tree().create_timer(0.5).timeout
+					weapon_sound()
+					await get_tree().create_timer(0.3).timeout
+					weapon_sound()
+					await get_tree().create_timer(0.2).timeout
 					$SpecialAttackSword.set_deferred("disabled", true)
 					$SpecialAttackSword.hide()
 					await get_tree().create_timer(0.2).timeout
@@ -146,10 +154,14 @@ func special_attack():
 					$AnimatedSprite2D.play(special_attack_animation)
 					$SpecialAttackAxe.set_deferred("disabled", false)
 					$SpecialAttackAxe.show()
-					await get_tree().create_timer(0.5).timeout
+					weapon_sound()
+					await get_tree().create_timer(0.3).timeout
+					weapon_sound()
+					await get_tree().create_timer(0.2).timeout
 					$SpecialAttackAxe.set_deferred("disabled", true)
 					$SpecialAttackAxe.hide()
-					await get_tree().create_timer(0.4).timeout
+					weapon_sound()
+					await get_tree().create_timer(0.2).timeout
 					$AnimatedSprite2D.stop()
 					hide()
 			"spear":
@@ -160,7 +172,10 @@ func special_attack():
 					$AnimatedSprite2D.play(special_attack_animation)
 					$SpecialAttackSpear.set_deferred("disabled", false)
 					$SpecialAttackSpear.show()
-					await get_tree().create_timer(0.4).timeout
+					weapon_sound()
+					await get_tree().create_timer(0.2).timeout
+					weapon_sound()
+					await get_tree().create_timer(0.2).timeout
 					$SpecialAttackSpear.set_deferred("disabled", true)
 					$SpecialAttackSpear.hide()
 					await get_tree().create_timer(0.2).timeout
@@ -210,3 +225,13 @@ func change_animations():
 				basic_attack_animation = "basic_attack_simple_spear"
 				strong_attack_animation = "strong_attack_simple_spear"
 				special_attack_animation = "special_attack_simple_spear"
+
+func weapon_sound():
+	match type:
+		"sword":
+			$WeaponSound.pitch_scale = randf_range(0.9, 1.1)
+		"axe":
+			$WeaponSound.pitch_scale = randf_range(0.6, 0.8)
+		"spear":
+			$WeaponSound.pitch_scale = randf_range(1.2, 1.4)
+	$WeaponSound.play()
