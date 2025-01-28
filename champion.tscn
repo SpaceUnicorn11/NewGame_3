@@ -235,6 +235,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("20_i1fmb")
+}],
+"loop": true,
+"name": &"default_right_simple_sword_1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("21_pwfvw")
 }],
 "loop": true,
@@ -271,14 +279,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"default_spear",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("20_i1fmb")
-}],
-"loop": true,
-"name": &"defaults_right_simple_sword",
 "speed": 5.0
 }, {
 "frames": [{
@@ -564,9 +564,6 @@ shape = SubResource("CapsuleShape2D_b4vo1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_i8bbd")
-animation = &"move_right_simple_spear"
-frame = 1
-frame_progress = 0.951388
 
 [node name="Weapon" parent="." instance=ExtResource("4_lh5jm")]
 position = Vector2(14, 12)
@@ -578,6 +575,7 @@ avoidance_enabled = true
 radius = 80.0
 
 [node name="DetectionArea" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource("CircleShape2D_yq2n0")

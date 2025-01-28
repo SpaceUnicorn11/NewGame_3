@@ -102,7 +102,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"basic_attack_spear",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -292,12 +292,10 @@ sync_to_physics = false
 script = ExtResource("1_tv7vw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-9, -50)
+position = Vector2(61.4286, -2.27374e-13)
 sprite_frames = SubResource("SpriteFrames_3pc7l")
-animation = &"special_attack_simple_spear"
-frame = 2
-frame_progress = 0.232286
-centered = false
+animation = &"basic_attack_axe"
+frame_progress = 0.199507
 
 [node name="BasicAttackSword" type="CollisionPolygon2D" parent="."]
 visible = false
@@ -325,3 +323,36 @@ one_shot = true
 [node name="SpecialAttackTimer" type="Timer" parent="."]
 wait_time = 10.0
 one_shot = true
+
+[node name="BasicAttackAxe" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(9, 16, 58.5714, 64.2857, 81.4286, 82.8571, 107.143, 45.7143, 108.571, -8.57143, 92.8571, -42.8571, 41.4286, -7.14286)
+disabled = true
+
+[node name="StrongAttackAxe" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(-1.42857, 38.5714, 44.2857, 137.143, 81.4286, 152.857, 121.429, 84.2857, 118.571, -11.4286, 77.1429, -58.5714, 34.2857, -14.2857)
+disabled = true
+
+[node name="SpecialAttackAxe" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(11.4286, 42.8571, 75.7143, 141.429, 135.714, 155.714, 180, 84.2857, 180, 2.85714, 135.714, -51.4286, 80, -11.4286)
+disabled = true
+
+[node name="BasicAttackSpear" type="CollisionPolygon2D" parent="."]
+visible = false
+position = Vector2(2.57143, 0)
+polygon = PackedVector2Array(8.85714, -14.2857, 8.85714, 17.1429, 71.7143, 18.5714, 108.857, 15.7143, 134.571, 8.57143, 134.571, -5.71429, 108.857, -14.2857, 70.2857, -17.1429)
+disabled = true
+
+[node name="StrongAttackSpear" type="CollisionPolygon2D" parent="."]
+visible = false
+position = Vector2(2.57143, 0)
+polygon = PackedVector2Array(3.14286, -7.14286, 3.14286, 8.57143, 87.4286, 47.1429, 117.429, 48.5714, 128.857, 11.4286, 128.857, -20, 116, -51.4286, 78.8571, -40)
+disabled = true
+
+[node name="SpecialAttackSpear" type="CollisionPolygon2D" parent="."]
+visible = false
+position = Vector2(2.57143, 0)
+polygon = PackedVector2Array(4.57143, -15.7143, 4.57143, 21.4286, 86, 31.4286, 120.286, 24.2857, 170.286, 10, 170.286, -7.14286, 126, -22.8571, 80.2857, -27.1429)
+disabled = true

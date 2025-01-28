@@ -3,9 +3,9 @@ extends Node2D
 @export var champion_scene: PackedScene
 @export var corpse_scene: PackedScene
 var stage = 1
-var champion_types = ["greataxe", "spear", "sword"]
-var champions_alive = 0
-var next_player 
+var champion_types = ["axe", "spear", "sword"]
+var champions_alive = -1
+var next_player
 
 signal next_combat
 
@@ -32,6 +32,7 @@ func start_round():
 				next_player.is_player = true
 				next_player.position = Vector2(640, 370)
 				next_player.health = next_player.max_health
+				next_player.change_animations()
 				$HealthBar/HealthValue.text = str(next_player.health)
 				$HealthBar.value = next_player.health
 				$HealthBar/MaxHealthValue.text = str(next_player.max_health)
@@ -114,11 +115,12 @@ func spawn_champion(spawn_position):
 	var champion = champion_scene.instantiate()
 	if next_player == null:
 		champion.is_player = true
+		champion.change_animations()
 		next_player = champion
-		champions_alive -= 1
+		#champions_alive -= 1
 	else:
 		champion.is_player = false
-	champion.type = "sword" #champion_types[randi_range(0, 2)]
+	champion.type = champion_types[randi_range(0, 2)]
 	champion.rank = stage
 	champion.position = spawn_position
 	add_child(champion)
@@ -137,4 +139,5 @@ func end_combat_check():
 
 func all_dead():
 	stage = 1
+	champions_alive = -1
 	start_round()

@@ -41,6 +41,7 @@ texture = ExtResource("3_28wb6")
 
 [node name="StartGameButton" type="Button" parent="StartImage"]
 z_index = 15
+layout_mode = 0
 offset_left = 3.0
 offset_right = 1281.0
 offset_bottom = 1290.0
