@@ -1,0 +1,105 @@
+[gd_scene load_steps=9 format=3 uid="uid://b5oo5gpwuqh71"]
+
+[ext_resource type="Script" path="res://Scripts/Dialog.gd" id="1_i4xqs"]
+[ext_resource type="Texture2D" uid="uid://bb6sk4knx7f3q" path="res://Assets/Images/dialog_sword.png" id="1_x8g85"]
+[ext_resource type="Texture2D" uid="uid://bgewi5yf2gr48" path="res://Assets/Images/dialog_sword_2.png" id="2_utvt8"]
+[ext_resource type="Texture2D" uid="uid://4jj2s7gi2l27" path="res://Assets/Images/dialog_sword_3.png" id="3_08cbn"]
+[ext_resource type="Texture2D" uid="uid://csm138kaswh4m" path="res://Assets/Images/dialog_background.png" id="4_4x5ln"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vsci8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6pip6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oe8lq"]
+
+[node name="Dialog" type="CanvasLayer"]
+process_mode = 3
+layer = 15
+visible = false
+script = ExtResource("1_i4xqs")
+
+[node name="Sword" type="TextureRect" parent="."]
+offset_left = -162.0
+offset_top = 43.0
+offset_right = 1118.0
+offset_bottom = 763.0
+rotation = 0.13439
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_x8g85")
+stretch_mode = 2
+
+[node name="Sword2" type="TextureRect" parent="."]
+visible = false
+offset_left = -162.0
+offset_top = 43.0
+offset_right = 1118.0
+offset_bottom = 763.0
+rotation = 0.13439
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_utvt8")
+stretch_mode = 2
+
+[node name="Sword3" type="TextureRect" parent="."]
+visible = false
+offset_left = -162.0
+offset_top = 43.0
+offset_right = 1118.0
+offset_bottom = 763.0
+rotation = 0.13439
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_08cbn")
+stretch_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 134.0
+offset_top = 514.0
+offset_right = 316.0
+offset_bottom = 550.0
+texture = ExtResource("4_4x5ln")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 3.0
+offset_right = 154.0
+offset_bottom = 26.0
+text = "BLOODDRINKER"
+
+[node name="Dialog" type="TextureRect" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -545.0
+offset_top = -175.0
+offset_right = 555.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("4_4x5ln")
+
+[node name="Text" type="RichTextLabel" parent="Dialog"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 8.0
+offset_right = 1079.0
+offset_bottom = 137.0
+theme_override_colors/default_color = Color(0.972614, 0.938596, 0.887341, 1)
+theme_override_font_sizes/normal_font_size = 20
+shortcut_keys_enabled = false
+
+[node name="NextDialogButton" type="Button" parent="."]
+process_mode = 3
+top_level = true
+z_index = 15
+offset_left = -1.0
+offset_right = 1281.0
+offset_bottom = 718.0
+theme_override_font_sizes/font_size = 50
+theme_override_styles/hover = SubResource("StyleBoxEmpty_vsci8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_6pip6")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oe8lq")
+
+[connection signal="pressed" from="NextDialogButton" to="." method="_on_next_dialog_button_pressed"]

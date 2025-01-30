@@ -219,10 +219,10 @@ func _physics_process(_delta):
 							$AnimatedSprite2D.play(default_back)
 							last_direction = Vector2.ZERO
 				if rank > 1 && $Weapon/StrongAttackTimer.is_stopped() == true:
-					await get_tree().create_timer(0.3).timeout
+					await get_tree().create_timer(0.5).timeout
 					$Weapon.strong_attack()
-				elif rank >= 1 && $Weapon/BasicAttackTimer.is_stopped() == true:
-					await get_tree().create_timer(0.3).timeout
+				elif rank >= 2 && $Weapon/BasicAttackTimer.is_stopped() == true:
+					await get_tree().create_timer(0.5).timeout
 					$Weapon.basic_attack()
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target == get_node('/root/Main/Stage/ArenaCenter'):
 				$NavigationAgent2D.set_target_position(target.position)
@@ -277,11 +277,11 @@ func death():
 
 func next_combat():
 	if get_parent().stage == 2:
-		strong_attack_unlocked = true
-		get_node('/root/Main/Stage/StrongCooldown').show()
-	elif get_parent().stage == 3:
 		dash_unlocked = true
 		get_node('/root/Main/Stage/DashCooldown').show()
+	elif get_parent().stage == 3:
+		strong_attack_unlocked = true
+		get_node('/root/Main/Stage/StrongCooldown').show()
 	elif get_parent().stage == 4:
 		special_attack_unlocked = true
 		get_node('/root/Main/Stage/SpecialCooldown').show()

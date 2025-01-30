@@ -1,9 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://bwdx46xvwukig"]
+[gd_scene load_steps=14 format=3 uid="uid://bwdx46xvwukig"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_ehqqq"]
 [ext_resource type="PackedScene" uid="uid://kifusg7w5o5" path="res://stage.tscn" id="2_ksp8t"]
+[ext_resource type="PackedScene" uid="uid://b5oo5gpwuqh71" path="res://dialog.tscn" id="3_3iool"]
 [ext_resource type="Texture2D" uid="uid://dt38nw7pfyraj" path="res://Assets/Images/Cover_art.png" id="3_28wb6"]
 [ext_resource type="AudioStream" uid="uid://bx7lx82n8k0n0" path="res://Assets/Sounds/background/Zander Noriega - Fight Them Until We Cant.wav" id="4_dcpl3"]
+[ext_resource type="Texture2D" uid="uid://dn16b2re7ecfr" path="res://Assets/Images/End_game_art.png" id="5_rdw2d"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_roowi"]
 
@@ -19,21 +21,13 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdfv6"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pp7bj"]
-bg_color = Color(0.481789, 0.48179, 0.481789, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_itnbj"]
-bg_color = Color(0.481789, 0.48179, 0.481789, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_upyqf"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1jbu1"]
-
 [node name="Main" type="Node"]
 script = ExtResource("1_ehqqq")
 stage_scene = ExtResource("2_ksp8t")
+dialog_scene = ExtResource("3_3iool")
 
 [node name="StartImage" type="TextureRect" parent="."]
+visible = false
 top_level = true
 z_index = 10
 offset_right = 40.0
@@ -54,6 +48,7 @@ text = "Click to start"
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
 process_mode = 3
+layer = 20
 visible = false
 
 [node name="ResumeButton" type="Button" parent="PauseMenu"]
@@ -90,68 +85,19 @@ text = "Main menu"
 
 [node name="VictoryMenu" type="CanvasLayer" parent="."]
 process_mode = 3
-visible = false
 
 [node name="TextureRect" type="TextureRect" parent="VictoryMenu"]
-offset_right = 1152.0
-offset_bottom = 648.0
+offset_top = 1.0
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("5_rdw2d")
 expand_mode = 1
 
-[node name="ExitButton" type="Button" parent="VictoryMenu"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = 160.0
-offset_right = 100.0
-offset_bottom = 210.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_pp7bj")
-theme_override_styles/normal = SubResource("StyleBoxFlat_itnbj")
-text = "Exit game"
-
-[node name="MainMenuButton" type="Button" parent="VictoryMenu"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = 60.0
-offset_right = 100.0
-offset_bottom = 110.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/hover = SubResource("StyleBoxFlat_upyqf")
-theme_override_styles/normal = SubResource("StyleBoxFlat_1jbu1")
-text = "Main menu"
-
-[node name="YouWon" type="Label" parent="VictoryMenu"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -235.5
-offset_top = -140.0
-offset_right = 235.5
-offset_bottom = -3.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.886275, 0.0862745, 0.0745098, 1)
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 100
-text = "Victory!"
-horizontal_alignment = 1
-
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 position = Vector2(675, 379)
 stream = ExtResource("4_dcpl3")
 
 [connection signal="pressed" from="StartImage/StartGameButton" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="PauseMenu/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="PauseMenu/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
-[connection signal="pressed" from="VictoryMenu/ExitButton" to="VictoryMenu/ExitButton" method="_on_pressed"]

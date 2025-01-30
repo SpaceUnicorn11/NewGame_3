@@ -189,9 +189,11 @@ theme_override_font_sizes/font_size = 35
 text = "/5"
 
 [node name="CrowdSounds" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 position = Vector2(633, 4)
 stream = ExtResource("16_evme6")
 
 [node name="CrowdSoundsVictory" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
 position = Vector2(633, 4)
 stream = ExtResource("17_kl7c2")
