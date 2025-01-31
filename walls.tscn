@@ -1,16 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dahy3it4dig5h"]
+[gd_scene load_steps=2 format=3 uid="uid://dahy3it4dig5h"]
 
 [ext_resource type="Texture2D" uid="uid://eo44rgau6qde" path="res://Assets/Images/arena_walls.png" id="1_7twvj"]
-[ext_resource type="Texture2D" uid="uid://c7tkhyvbqlrs4" path="res://Assets/Images/viewers.png" id="2_dd1f7"]
 
 [node name="Walls" type="StaticBody2D"]
 position = Vector2(640, 360)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_7twvj")
-
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-texture = ExtResource("2_dd1f7")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 build_mode = 1

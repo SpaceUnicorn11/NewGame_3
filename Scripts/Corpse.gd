@@ -1,5 +1,6 @@
 extends AnimatedSprite2D
 
+var can_move = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -2,10 +2,10 @@ extends Node2D
 
 @export var champion_scene: PackedScene
 @export var corpse_scene: PackedScene
-var stage = 5
+var stage = 1
 var champion_types = ["axe", "spear", "sword"]
-var champions_alive = -1
-var next_player
+var champions_alive = 0
+var next_player #get_child(13)
 var first_time_round = [true, true, true, true, true]
 
 signal next_combat
@@ -29,6 +29,10 @@ func start_round():
 			$StrongCooldown.hide()
 			$SpecialCooldown.hide()
 			$DashCooldown.hide()
+			for k in (get_child_count() - 12):
+				if get_child(13 + k) != null && get_child(13 + k).can_move == true:
+					next_player = get_child(13 + k)
+					k = 0
 			if next_player != null:
 				next_player.is_player = true
 				next_player.position = Vector2(640, 370)
@@ -39,12 +43,20 @@ func start_round():
 				$HealthBar/MaxHealthValue.text = str(next_player.max_health)
 				$HealthBar.max_value = next_player.max_health
 				next_player.get_child(2).reset_timers()
-			#$Sword.hide()
+				next_player.dash_unlocked = false
+				next_player.strong_attack_unlocked = false
+				next_player.special_attack_unlocked = false
 			var stage_1_spawns = [Vector2(200,200), Vector2(200,550), Vector2(650,150), Vector2(650,600), Vector2(1100,200), Vector2(1100,550)]
-			for i in 6:
-				spawn_champion(stage_1_spawns[i])
-				champions_alive += 1
-			$StageNumer/Value.text = str(stage)
+			if next_player == null:
+				for i in 6:
+					spawn_champion(stage_1_spawns[i])
+					champions_alive += 1
+				$StageNumer/Value.text = str(stage)
+			else:
+				for i in 5:
+					spawn_champion(stage_1_spawns[i])
+					champions_alive += 1
+				$StageNumer/Value.text = str(stage)
 			if first_time_round[0]:
 				get_parent().play_dialog(stage, first_time_round[0])
 				first_time_round[0] = false
@@ -118,41 +130,47 @@ func start_round():
 			else:
 				all_dead()
 		5:
-			var stage_4_spawns = [Vector2(150,350), Vector2(1130,370)]    #//for testing 1v1
-			for i in 2:
-				spawn_champion(stage_4_spawns[i])
-				champions_alive += 1
-			$StageNumer/Value.text = str(stage)
-			next_player.position = Vector2(640, 370)
-			next_player.health = next_player.max_health
-			$HealthBar/HealthValue.text = str(next_player.health)
-			$HealthBar.value = next_player.health
-			$HealthBar/MaxHealthValue.text = str(next_player.max_health)
-			$HealthBar.max_value = next_player.max_health
+			#var stage_4_spawns = [Vector2(150,350), Vector2(1130,370)]    #//for testing 1v1
+			#for i in 2:
+				#spawn_champion(stage_4_spawns[i])
+				#champions_alive += 1
+			#$StageNumer/Value.text = str(stage)
+			#next_player.position = Vector2(640, 370)
+			#next_player.health = next_player.max_health
+			#$HealthBar/HealthValue.text = str(next_player.health)
+			#$HealthBar.value = next_player.health
+			#$HealthBar/MaxHealthValue.text = str(next_player.max_health)
+			#$HealthBar.max_value = next_player.max_health
 		
-			#if next_player != null:
-				#next_player.position = Vector2(150, 370)
-				#next_player.health = next_player.max_health
-				#$HealthBar/HealthValue.text = str(next_player.health)
-				#$HealthBar.value = next_player.health
-				#$HealthBar/MaxHealthValue.text = str(next_player.max_health)
-				#$HealthBar.max_value = next_player.max_health
-				#next_player.get_child(2).reset_timers()
-				#var stage_5_spawns = [Vector2(1130,370)]
-				#for i in 1:
-					#spawn_champion(stage_5_spawns[i])
-					#champions_alive += 1
-				#$StageNumer/Value.text = str(stage)
-				#if first_time_round[4]:
-					#get_parent().play_dialog(stage, first_time_round[4])
-					#first_time_round[4] = false
-				#else:
-					#get_parent().play_dialog(stage, first_time_round[4])
-				#get_parent().pause_game()
-			#else:
-				#all_dead()
+			if next_player != null:
+				next_player.position = Vector2(150, 370)
+				next_player.health = next_player.max_health
+				$HealthBar/HealthValue.text = str(next_player.health)
+				$HealthBar.value = next_player.health
+				$HealthBar/MaxHealthValue.text = str(next_player.max_health)
+				$HealthBar.max_value = next_player.max_health
+				next_player.get_child(2).reset_timers()
+				var stage_5_spawns = [Vector2(1130,370)]
+				for i in 1:
+					spawn_champion(stage_5_spawns[i])
+					champions_alive += 1
+				$StageNumer/Value.text = str(stage)
+				if first_time_round[4]:
+					get_parent().play_dialog(stage, first_time_round[4])
+					first_time_round[4] = false
+				else:
+					get_parent().play_dialog(stage, first_time_round[4])
+				get_parent().pause_game()
+			else:
+				all_dead()
 		6:
 			$CrowdSoundsVictory.play()
+			$HealthBar.hide()
+			$BasicCooldown.hide()
+			$StrongCooldown.hide()
+			$SpecialCooldown.hide()
+			$DashCooldown.hide()
+			next_player.can_move = false
 			get_parent().victory_dialog()
 			get_parent().pause_game()
 
@@ -176,7 +194,7 @@ func spawn_corpse(corpse_position):
 	add_child(corpse)
 
 func end_combat_check():
-	if champions_alive == 0:
+	if champions_alive == 1:
 		stage += 1
 		await get_tree().create_timer(2).timeout
 		next_combat.emit()
@@ -184,5 +202,5 @@ func end_combat_check():
 
 func all_dead():
 	stage = 1
-	champions_alive = -1
+	champions_alive = 0
 	start_round()

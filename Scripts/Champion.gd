@@ -11,9 +11,9 @@ var max_health = 100
 var health
 var attack_distance = 50
 var knockback = 10
-var strong_attack_unlocked = true
-var dash_unlocked = true
-var special_attack_unlocked = true
+var strong_attack_unlocked = false
+var dash_unlocked = false
+var special_attack_unlocked = false
 var last_direction = Vector2.ZERO
 var default = 'default'
 var default_back = 'default_back'
@@ -26,6 +26,7 @@ var move_left_animation = 'move_left'
 
 
 func _ready():
+	get_parent().next_combat.connect(next_combat)
 	change_animations()
 	match type:
 		"sword":
@@ -33,21 +34,28 @@ func _ready():
 			max_health = 150 + 20 * rank
 			health = max_health
 			$Weapon.type = "sword"
-			$DashTimer.wait_time = 2
+			$DashTimer.wait_time = 1.8
+			knockback = 20
+			attack_distance = 50
 		"axe":
-			speed = 100
-			max_health = 200 + 30 * rank
+			speed = 120
+			max_health = 170 + 30 * rank
 			health = max_health
 			$Weapon.type = "axe"
-			$DashTimer.wait_time = 3
+			$DashTimer.wait_time = 2.5
+			knockback = 10
+			attack_distance = 70
 		"spear":
 			speed = 200
-			max_health = 100 + 10 * rank
+			max_health = 120 + 15 * rank
 			health = max_health
 			$Weapon.type = "spear"
 			$DashTimer.wait_time = 1
+			knockback = 30
+			attack_distance = 90
 	$Weapon.change_animations()
 	$AnimatedSprite2D.play(default)
+	$TargetChangeTimer.start()
 
 	if !is_player:
 		$DetectionArea/CollisionShape2D.disabled = false
@@ -57,7 +65,6 @@ func _ready():
 	if is_player:
 		$Hitbox.collision_layer = 3
 		z_index = 3
-		get_parent().next_combat.connect(next_combat)
 		get_node('/root/Main/Stage/HealthBar').max_value = max_health
 		get_node('/root/Main/Stage/HealthBar').value = health
 		get_node('/root/Main/Stage/HealthBar/HealthValue').text = str(health)
@@ -120,9 +127,9 @@ func _physics_process(_delta):
 
 		if Input.is_action_pressed("basic_attack") && $Weapon/BasicAttackTimer.is_stopped() == true:
 			$Weapon.basic_attack()
-		if Input.is_action_pressed("strong_attack") && $Weapon/StrongAttackTimer.is_stopped() == true:
+		if Input.is_action_pressed("strong_attack") && strong_attack_unlocked && $Weapon/StrongAttackTimer.is_stopped() == true:
 			$Weapon.strong_attack()
-		if Input.is_action_pressed("special_attack") && $Weapon/SpecialAttackTimer.is_stopped() == true:
+		if Input.is_action_pressed("special_attack") && special_attack_unlocked && $Weapon/SpecialAttackTimer.is_stopped() == true:
 			$Weapon.special_attack()
 
 		if Input.is_action_pressed("dash") && dash_unlocked && $DashTimer.is_stopped() == true:
@@ -218,10 +225,10 @@ func _physics_process(_delta):
 						Vector2(0, -1):
 							$AnimatedSprite2D.play(default_back)
 							last_direction = Vector2.ZERO
-				if rank > 1 && $Weapon/StrongAttackTimer.is_stopped() == true:
+				if rank > 2 && $Weapon/StrongAttackTimer.is_stopped() == true:
 					await get_tree().create_timer(0.5).timeout
 					$Weapon.strong_attack()
-				elif rank >= 2 && $Weapon/BasicAttackTimer.is_stopped() == true:
+				elif $Weapon/BasicAttackTimer.is_stopped() == true:
 					await get_tree().create_timer(0.5).timeout
 					$Weapon.basic_attack()
 			elif $NavigationAgent2D.target_position.distance_to(position) <= attack_distance && target == get_node('/root/Main/Stage/ArenaCenter'):
@@ -237,7 +244,7 @@ func _on_area_2d_body_entered(body): #chance to change target if its close
 		if body.is_player == true && target == get_node('/root/Main/Stage/ArenaCenter'):
 			target = body
 			$TargetChangeTimer.start()
-		elif body.position != position && randi_range(1, 10) * rank < 10 && $TargetChangeTimer.is_stopped():
+		elif body.position != position && randi_range(1, 10) * (rank/2) < 10 && $TargetChangeTimer.is_stopped():
 			target = body
 			$TargetChangeTimer.start()
 
@@ -251,9 +258,11 @@ func _on_hitbox_body_entered(body):
 				get_node('/root/Main/Stage/HealthBar/HealthValue').text = str(health)
 				get_node('/root/Main/Stage/HealthBar').value = health
 			velocity = position.direction_to(body.position) * -150 * knockback
+			$Blood.emitting = true
 			move_and_slide()
 			$HitSound.play()
 			await get_tree().create_timer(0.1).timeout
+			$Blood.emitting = false
 			$AnimatedSprite2D.show()
 			await get_tree().create_timer(0.4).timeout
 			$Hitbox/CollisionShape2D.set_deferred("disabled", false)
@@ -264,6 +273,9 @@ func _on_hitbox_body_entered(body):
 				get_node('/root/Main/Stage/CrowdSounds').play()
 				get_node('/root/Main/Stage/HealthBar/HealthValue').text = str(health)
 				get_node('/root/Main/Stage/HealthBar').value = health
+			$Blood.emitting = true
+			await get_tree().create_timer(0.1).timeout
+			$Blood.emitting = false
 			death()
 			if get_parent().next_player == null:
 				get_parent().next_player = body.get_parent()
@@ -271,9 +283,9 @@ func _on_hitbox_body_entered(body):
 func death():
 	can_move = false
 	get_parent().champions_alive -= 1
-	get_parent().end_combat_check()
 	queue_free()
 	get_node('/root/Main/Stage').spawn_corpse(position)
+	get_parent().end_combat_check()
 
 func next_combat():
 	if get_parent().stage == 2:
@@ -292,8 +304,6 @@ func change_animations():
 	$Weapon.change_animations()
 	match type:
 		"sword":
-			knockback = 20
-			attack_distance = 50
 			if is_player:
 				default = 'default'
 				default_back = 'default_back'
@@ -313,8 +323,6 @@ func change_animations():
 				move_right_animation = 'move_right_simple_sword'
 				move_left_animation = 'move_left_simple_sword'
 		"axe":
-			knockback = 30
-			attack_distance = 70
 			if is_player:
 				default = 'default_axe'
 				default_back = 'default_back_axe'
@@ -334,8 +342,6 @@ func change_animations():
 				move_right_animation = 'move_right_simple_axe'
 				move_left_animation = 'move_left_simple_axe'
 		"spear":
-			knockback = 10
-			attack_distance = 100
 			if is_player:
 				default = 'default_spear'
 				default_back = 'default_back_spear'

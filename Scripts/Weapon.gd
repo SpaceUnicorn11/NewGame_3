@@ -40,7 +40,7 @@ func basic_attack():
 		"sword":
 			if $BasicAttackTimer.is_stopped():
 				$BasicAttackTimer.start()
-				damage = 5 + 5 * damage_bonus
+				damage = 10 + 5 * damage_bonus
 				show()
 				$AnimatedSprite2D.play(basic_attack_animation)
 				$BasicAttackSword.set_deferred("disabled", false)
@@ -54,7 +54,7 @@ func basic_attack():
 		"axe":
 			if $BasicAttackTimer.is_stopped():
 				$BasicAttackTimer.start()
-				damage = 10 + 5 * damage_bonus
+				damage = 15 + 5 * damage_bonus
 				show()
 				$AnimatedSprite2D.play(basic_attack_animation)
 				$BasicAttackAxe.set_deferred("disabled", false)
@@ -68,7 +68,7 @@ func basic_attack():
 		"spear":
 			if $BasicAttackTimer.is_stopped():
 				$BasicAttackTimer.start()
-				damage = 0 + 5 * damage_bonus
+				damage = 5 + 5 * damage_bonus
 				show()
 				$AnimatedSprite2D.play(basic_attack_animation)
 				$BasicAttackSpear.set_deferred("disabled", false)
@@ -81,7 +81,7 @@ func basic_attack():
 				hide()
 
 func strong_attack():
-	if get_parent().rank >= 2 || get_parent().strong_attack_unlocked:
+	if get_parent().rank >= 3 || get_parent().strong_attack_unlocked:
 		match type:
 			"sword":
 				if $StrongAttackTimer.is_stopped():
@@ -127,7 +127,7 @@ func strong_attack():
 					hide()
 
 func special_attack():
-	if get_parent().rank >= 3 || get_parent().special_attack_unlocked:
+	if get_parent().rank >= 4 || get_parent().special_attack_unlocked:
 		match type:
 			"sword":
 				if $SpecialAttackTimer.is_stopped():

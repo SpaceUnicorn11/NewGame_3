@@ -50,7 +50,7 @@ scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_08cbn")
 stretch_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Name" type="TextureRect" parent="."]
 offset_left = 134.0
 offset_top = 514.0
 offset_right = 316.0
@@ -58,7 +58,7 @@ offset_bottom = 550.0
 texture = ExtResource("4_4x5ln")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="TextureRect"]
+[node name="Label" type="Label" parent="Name"]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 3.0

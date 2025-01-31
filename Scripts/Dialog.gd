@@ -24,13 +24,16 @@ func _on_next_dialog_button_pressed():
 		$Sword3.hide()
 		match sword_state[0]:
 			0:
-				pass
+				$Name.hide()
 			1:
 				$Sword.show()
+				$Name.show()
 			2:
 				$Sword2.show()
+				$Name.show()
 			3:
 				$Sword3.show()
+				$Name.show()
 		sword_state.remove_at(0)
 		$Dialog/Text.text = current_dialog[0]
 	else:
@@ -40,6 +43,9 @@ func _on_next_dialog_button_pressed():
 		$Sword3.hide()
 		get_parent().resume_game()
 		if is_victory_dialog:
+			get_node('/root/Main/Stage').next_player.hide()
+			get_node('/root/Main/Stage').spawn_corpse(get_node('/root/Main/Stage').next_player.position)
+			await get_tree().create_timer(3).timeout
 			get_parent().victory_screen()
 
 func start_game_dialog():
@@ -54,7 +60,7 @@ func start_game_dialog():
 
 func round_1():
 	current_dialog.append("You hear that? They are as happy to see you die as much as win.\nI guess you won't dissapoint them either way...")
-	current_dialog.append("Well, that one was disapointing. I suppose i haven't expected to sucseed at first try anyway.\nLet's see what you have.")
+	current_dialog.append("Well, that one was disapointing. I suppose i haven't expected him to sucseed anyway.\nLet's see what you have.")
 	current_dialog.append("Another one bites the sand! I do hope you'll last longer than him.")
 	current_dialog.append("A new hand touches the sword! Eww, i hate saying that line.\nDon't worry, we don't need to go anywhere, plenty of killing right here!")
 	current_dialog.append("I really thought he was the one. Let's see how far can YOU get.")
@@ -113,7 +119,7 @@ func first_time_round_4():
 
 func round_4():
 	current_dialog.append("It's just two of them now, should be easy enough even for you. \nBut then again, they probably quite dangerous, if they made it this far... \nNo, probably won't be betting on you this time.")
-	current_dialog.append("If you move fast, hit hard and... you know what? \nI'm probably not the best teacher, if all my students have died, just go do your thing...")
+	current_dialog.append("If you move fast, hit hard and... you know what? \nI'm probably not the best teacher, if all my students have died. \nJust go do your thing...")
 	current_dialog.append("You know, i'm on your side, but those guys look really tough. \nI won't really be mad if you would just die and i take one of them instead.")
 	$Sword3.show()
 	$Dialog/Text.text = current_dialog.pick_random()
@@ -140,18 +146,19 @@ func round_5():
 	show()
 
 func victory():
-	current_dialog.append("So... you won. Do you hear them? They love you. They will remember your name, like they did with the others before you.")
+	current_dialog.append("So... you won. Do you hear them? They love you. They will remember your name, and your story will become a legend.")
 	current_dialog.append("Unfortunatly, there is no prize... but you already knew that, didn't you? \nWhen you made your first step into this arena, you knew, no one leaves here alive.")
 	current_dialog.append("I don't need a weapon, but i do need... a sacrifice. That is why you all here. \nI mean, you know my name, why would you think i need anything else?")
 	current_dialog.append("Long ago i agreed to stay bound to this place, as long as i am provided with a great sacrifice every year.")
 	current_dialog.append("I'll stay...but someday your rulers won't be satisfied with containing me, \nthey'll want to turn me on their enemies...like they always do...\nand then i'll be free and I WILL DROWN THIS WORLD IN BLOOD...again. \nSo, for now, i will accept this sacrifice and sleep for another year.")
 	current_dialog.append("No, don't try to move, there is nowhere to run. \nYou should't fear death. You were as good as dead the moment you lifted me, you just didn't realized it.")
-	current_dialog.append("After all, there is a reason I call YOU weapons: \nyour free will becomes less 'free' each time you kill someone with me. \nYes, as you can guess, it takes only five kills to completly lose control.\nYou either survive five rounds and submit or you die.")
+	current_dialog.append("After all, there is a reason I call YOU weapons: \nyour free will becomes less 'free' each time you kill someone with me. \nYes, as you can guess, it takes only five kills to completly lose control.\nYou either survive and submit or you die.")
 	current_dialog.append("Now, if you don't have any more questions...")
 	current_dialog.append("(oh, i know you didn't asked anythyng, i just don't have many opportunities to talk to people)")
 	current_dialog.append("...it is time to comlete this ritual, so...")
-	current_dialog.append("\n\n													WOULD YOU KINDLY KILL YOURSELF NOW")
-	sword_state = [1, 2, 1, 1, 2, 3, 1, 1, 3, 2, 1]
+	current_dialog.append("\n\n																	WOULD YOU KINDLY...")
+	current_dialog.append("\n\n																...SACRIFICE YOURSELF FOR ME?")
+	sword_state = [1, 2, 1, 1, 2, 3, 1, 1, 3, 2, 1, 1]
 	$Sword.show()
 	sword_state.remove_at(0)
 	$Dialog/Text.text = current_dialog[0]
