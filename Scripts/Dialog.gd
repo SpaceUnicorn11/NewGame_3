@@ -65,6 +65,7 @@ func round_1():
 	current_dialog.append("A new hand touches the sword! Eww, i hate saying that line.\nDon't worry, we don't need to go anywhere, plenty of killing right here!")
 	current_dialog.append("I really thought he was the one. Let's see how far can YOU get.")
 	$Sword.show()
+	$Name.show()
 	$Dialog/Text.text = current_dialog.pick_random()
 	current_dialog.clear()
 	show()
@@ -74,6 +75,7 @@ func first_time_round_2():
 	current_dialog.append("[You can now use SPACE to dash]")
 	sword_state = [2, 0]
 	$Sword2.show()
+	$Name.show()
 	sword_state.remove_at(0)
 	$Dialog/Text.text = current_dialog[0]
 	show()
@@ -83,6 +85,7 @@ func round_2():
 	current_dialog.append("If you move BEFORE they hit you, you won't get hit.\nSounds easy, right? Why is no one doing it?")
 	current_dialog.append("You move or you die, it's that simple.\n\n...well not really, you can still do both, but i would prefer the former.")
 	$Sword2.show()
+	$Name.show()
 	$Dialog/Text.text = current_dialog.pick_random()
 	current_dialog.clear()
 	show()
@@ -94,6 +97,7 @@ func first_time_round_3():
 	current_dialog.append("[...and your enemies can do that too...]")
 	sword_state = [2, 3, 0, 0]
 	$Sword2.show()
+	$Name.show()
 	sword_state.remove_at(0)
 	$Dialog/Text.text = current_dialog[0]
 	show()
@@ -103,6 +107,7 @@ func round_3():
 	current_dialog.append("Yes, you survived two rounds, but you'll need to do better then that if you want to win.\nOr don't, at this point you still wery replacable...")
 	current_dialog.append("Running is great, but you still need to hit them sometimes.\nWell not really, you can simply wait until they kill each other, it's just less fun.")
 	$Sword2.show()
+	$Name.show()
 	$Dialog/Text.text = current_dialog.pick_random()
 	current_dialog.clear()
 	show()
@@ -113,6 +118,7 @@ func first_time_round_4():
 	current_dialog.append("[You can now use Q for a special attack]")
 	sword_state = [1, 2, 0]
 	$Sword.show()
+	$Name.show()
 	sword_state.remove_at(0)
 	$Dialog/Text.text = current_dialog[0]
 	show()
@@ -122,6 +128,7 @@ func round_4():
 	current_dialog.append("If you move fast, hit hard and... you know what? \nI'm probably not the best teacher, if all my students have died. \nJust go do your thing...")
 	current_dialog.append("You know, i'm on your side, but those guys look really tough. \nI won't really be mad if you would just die and i take one of them instead.")
 	$Sword3.show()
+	$Name.show()
 	$Dialog/Text.text = current_dialog.pick_random()
 	current_dialog.clear()
 	show()
@@ -132,6 +139,7 @@ func first_time_round_5():
 	current_dialog.append("That is why you here, aren't you? Now go and kill him already!")
 	sword_state = [1, 1, 1]
 	$Sword.show()
+	$Name.show()
 	sword_state.remove_at(0)
 	$Dialog/Text.text = current_dialog[0]
 	show()
@@ -141,6 +149,7 @@ func round_5():
 	current_dialog.append("One more fight, one more death. What is one more death for you? Or for me...")
 	current_dialog.append("One of you will not leave this place alive. \nWill you let him decide who it will be? \nI'm fine with either...")
 	$Sword.show()
+	$Name.show()
 	$Dialog/Text.text = current_dialog.pick_random()
 	current_dialog.clear()
 	show()
@@ -160,6 +169,7 @@ func victory():
 	current_dialog.append("\n\n																...SACRIFICE YOURSELF FOR ME?")
 	sword_state = [1, 2, 1, 1, 2, 3, 1, 1, 3, 2, 1, 1]
 	$Sword.show()
+	$Name.show()
 	sword_state.remove_at(0)
 	$Dialog/Text.text = current_dialog[0]
 	is_victory_dialog = true
